@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day React.js Mastery Plan</title>
+<meta name="description" content="30-day intensive React.js plan for developers with 2 years of product company experience. Hooks, TypeScript, Next.js, Testing, and Production patterns.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--bg3h:#21262d;
+  --border:#30363d;--text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+  --cyan:#61dafb;--blue:#388bfd;--green:#3fb950;--yellow:#e3b341;
+  --orange:#f0883e;--purple:#a371f7;--red:#f85149;--pink:#f778ba;
+  --w1:#e3b341;--w2:#a371f7;--w3:#388bfd;--w4:#3fb950;
+  --sw:268px;--hh:58px;--r:8px;--rl:12px;--tr:0.17s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;top:0;left:0;width:var(--sw);height:100vh;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column;transition:transform var(--tr)}
+.sidebar::-webkit-scrollbar{width:3px}
+.sb-logo{padding:16px 14px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px}
+.sb-logo-text{font-size:13.5px;font-weight:700;color:var(--cyan);line-height:1.2}
+.sb-logo-sub{font-size:10.5px;color:var(--text2)}
+.sb-prog-wrap{padding:13px 14px;border-bottom:1px solid var(--border)}
+.sb-prog-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:6px;font-weight:500}
+.sb-prog-pct{color:var(--cyan);font-weight:700}
+.prog-track{width:100%;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:3px;transition:width .5s ease}
+.sb-weeks{padding:6px 0;flex:1}
+.sb-week-header{padding:8px 14px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.sb-week-dot{width:7px;height:7px;border-radius:50%}
+.sb-day-item{display:flex;align-items:center;gap:8px;padding:5px 14px;cursor:pointer;text-decoration:none;color:var(--text2);font-size:12px;font-weight:500;transition:all var(--tr);border-left:2px solid transparent}
+.sb-day-item:hover{background:var(--bg3);color:var(--text)}
+.sb-day-item.active{border-left-color:var(--cyan);color:var(--cyan);background:rgba(97,218,251,.05)}
+.sb-day-item.day-done{color:var(--green)}
+.sb-day-item.day-done .sb-day-num{background:var(--green);color:#000}
+.sb-day-item.active .sb-day-num{background:var(--cyan);color:#000}
+.sb-day-num{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;flex-shrink:0;background:var(--bg3);color:var(--text2);transition:all var(--tr)}
+.sb-day-pct{margin-left:auto;font-size:10px;color:var(--text3);flex-shrink:0}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sw);min-height:100vh}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 26px;height:var(--hh);display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-size:13px;font-weight:600;color:var(--text2)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.stats-row{display:flex;align-items:center;gap:16px}
+.stat{text-align:center}
+.stat-val{font-size:16px;font-weight:700;color:var(--cyan);line-height:1}
+.stat-lbl{font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+.reset-btn{padding:5px 10px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:var(--r);font-size:11px;cursor:pointer;font-family:inherit;transition:all var(--tr)}
+.reset-btn:hover{background:var(--bg3);color:var(--text)}
+
+/* ── HERO ── */
+.hero{padding:50px 30px 40px;border-bottom:1px solid var(--border);background:linear-gradient(150deg,rgba(97,218,251,.04) 0%,transparent 60%);position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-60px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(97,218,251,.06) 0%,transparent 68%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(97,218,251,.1);border:1px solid rgba(97,218,251,.2);color:var(--cyan);padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.6px}
+.hero-title{font-size:36px;font-weight:800;line-height:1.15;margin-bottom:12px;max-width:640px}
+.hero-title span{color:var(--cyan)}
+.hero-desc{font-size:14.5px;color:var(--text2);max-width:560px;line-height:1.75;margin-bottom:28px}
+.hero-meta{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:36px}
+.hm-item{display:flex;align-items:center;gap:7px;color:var(--text2);font-size:12.5px}
+.hm-icon{width:28px;height:28px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:14px}
+.hm-item strong{color:var(--text)}
+
+/* ── CALENDAR ── */
+.cal-section{margin-bottom:8px}
+.cal-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text3);margin-bottom:12px}
+.cal-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:520px}
+.cal-day{width:100%;aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all var(--tr);position:relative;text-decoration:none;color:var(--text2);background:var(--bg3)}
+.cal-day:hover{transform:scale(1.08);z-index:1}
+.cal-day.w1{border-color:rgba(227,179,65,.25);color:var(--w1)}
+.cal-day.w2{border-color:rgba(163,113,247,.25);color:var(--w2)}
+.cal-day.w3{border-color:rgba(56,139,253,.25);color:var(--w3)}
+.cal-day.w4{border-color:rgba(63,185,80,.25);color:var(--w4)}
+.cal-day.done{background:rgba(63,185,80,.12);border-color:var(--green);color:var(--green)}
+.cal-day.done::after{content:'✓';position:absolute;top:-5px;right:-4px;font-size:8px;background:var(--green);color:#000;border-radius:50%;width:12px;height:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.cal-legend{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
+.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.cal-legend-dot{width:8px;height:8px;border-radius:2px}
+
+/* ── CONTENT ── */
+.content{padding:26px 30px 60px;max-width:1060px}
+.week-divider{display:flex;align-items:center;gap:12px;margin-bottom:18px;margin-top:8px;padding:14px 0 0}
+.week-divider:first-child{padding-top:0}
+.week-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.week-line{flex:1;height:1px;background:var(--border)}
+.wl-1{background:rgba(227,179,65,.15);color:var(--w1);border:1px solid rgba(227,179,65,.2)}
+.wl-2{background:rgba(163,113,247,.15);color:var(--w2);border:1px solid rgba(163,113,247,.2)}
+.wl-3{background:rgba(56,139,253,.15);color:var(--w3);border:1px solid rgba(56,139,253,.2)}
+.wl-4{background:rgba(63,185,80,.15);color:var(--w4);border:1px solid rgba(63,185,80,.2)}
+
+/* ── DAY CARDS ── */
+.day-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);margin-bottom:14px;overflow:hidden;transition:border-color var(--tr);scroll-margin-top:calc(var(--hh) + 12px)}
+.day-card:hover{border-color:var(--text3)}
+.day-card.day-done{border-color:rgba(63,185,80,.22)}
+.day-head{padding:16px 20px;display:flex;align-items:flex-start;gap:13px;cursor:pointer;user-select:none}
+.day-badge{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.day-num-circle{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#000;flex-shrink:0}
+.day-head-info{flex:1;min-width:0}
+.day-theme-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text3);margin-bottom:3px}
+.day-title{font-size:15.5px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.3}
+.day-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.day-focus{font-size:11.5px;color:var(--text2);font-style:italic}
+.day-bar-wrap{display:flex;align-items:center;gap:6px}
+.day-bar{width:80px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.day-bar-fill{height:100%;border-radius:2px;transition:width .4s ease}
+.day-pct{font-size:11px;font-weight:600}
+.toggle-icon{flex-shrink:0;color:var(--text3);margin-top:3px;transition:transform var(--tr)}
+.day-card.open .toggle-icon{transform:rotate(180deg)}
+.day-body{display:none;border-top:1px solid var(--border)}
+.day-card.open .day-body{display:block}
+
+/* ── LEARN / PRACTICE SECTIONS ── */
+.day-sections{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--border)}
+.day-section{padding:18px 20px}
+.day-section+.day-section{border-left:1px solid var(--border)}
+.section-heading{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.learn-heading{color:var(--cyan)}
+.practice-heading{color:var(--orange)}
+.topic-group{margin-bottom:14px}
+.topic-group:last-child{margin-bottom:0}
+.topic-group-title{font-size:11.5px;font-weight:700;color:var(--text);margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid rgba(48,54,61,.5)}
+.sub-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;cursor:pointer;transition:opacity var(--tr)}
+.sub-item:hover{opacity:.85}
+.sub-item.done .sub-text{text-decoration:line-through;color:var(--text3)}
+.chk{width:14px;height:14px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all var(--tr)}
+.sub-item.done .chk{background:var(--green);border-color:var(--green)}
+.chk-svg{display:none;width:8px;height:8px}
+.sub-item.done .chk-svg{display:block}
+.sub-text{font-size:12.5px;color:var(--text2);line-height:1.45}
+.practice-item .sub-text{color:var(--text2)}
+
+/* ── RESOURCES ── */
+.res-section{padding:14px 20px 18px}
+.res-title{font-size:10.5px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.res-link{display:flex;align-items:center;gap:8px;padding:8px 11px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--text2);font-size:11.5px;font-weight:500;transition:all var(--tr)}
+.res-link:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(97,218,251,.04)}
+.res-badge{padding:1.5px 5px;border-radius:3px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0}
+.rb-doc{background:rgba(56,139,253,.15);color:#388bfd}
+.rb-video{background:rgba(248,81,73,.15);color:#f85149}
+.rb-course{background:rgba(163,113,247,.15);color:#a371f7}
+.rb-book{background:rgba(227,179,65,.15);color:#e3b341}
+.rb-practice{background:rgba(63,185,80,.15);color:#3fb950}
+.rb-repo{background:rgba(139,148,158,.15);color:#8b949e}
+.res-name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── MILESTONE BANNER ── */
+.milestone-banner{background:linear-gradient(90deg,rgba(97,218,251,.08),rgba(56,139,253,.08));border:1px solid rgba(97,218,251,.15);border-radius:var(--r);padding:12px 16px;margin:0 20px 16px;display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--text2)}
+.milestone-banner strong{color:var(--cyan)}
+
+/* ── HAMBURGER ── */
+.hamburger{display:none;position:fixed;top:11px;left:13px;z-index:200;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:7px;cursor:pointer;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:17px;height:2px;background:var(--text2);border-radius:1px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:90}
+
+/* ── TOAST ── */
+#toast{display:none;position:fixed;bottom:20px;right:20px;background:var(--green);color:#000;padding:10px 16px;border-radius:var(--r);font-weight:700;font-size:13px;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:toastIn .3s ease}
+@keyframes toastIn{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
+  .overlay.open{display:block}.main{margin-left:0}.hamburger{display:flex}
+  .topbar{padding-left:52px}.hero,.content{padding-left:18px;padding-right:18px}
+  .hero-title{font-size:26px}.day-sections{grid-template-columns:1fr}
+  .day-section+.day-section{border-left:none;border-top:1px solid var(--border)}
+  .res-grid{grid-template-columns:1fr 1fr}.cal-grid{grid-template-columns:repeat(6,1fr)}
+}
+@media(max-width:540px){.res-grid{grid-template-columns:1fr}.stats-row{display:none}.cal-grid{grid-template-columns:repeat(5,1fr)}}
+@media print{.sidebar,.topbar,.hamburger,.overlay{display:none!important}.main{margin-left:0}.day-body{display:block!important}}
+
+/* ── TIP DROPDOWNS ── */
+.sub-block{}
+.sub-row{display:flex;align-items:flex-start;gap:9px;padding:6px 14px;cursor:pointer;transition:background var(--tr)}
+.sub-row:hover{background:var(--bg3h)}
+.sub-item.done .sub-row .sub-text{text-decoration:line-through;color:var(--text3)}
+.sub-item.done .sub-row .chk{background:var(--green);border-color:var(--green)}
+.sub-item.done .sub-row .chk .chk-svg{display:block}
+.tip-btn{flex-shrink:0;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;padding:2px 5px;border-radius:4px;font-size:10px;transition:all var(--tr);margin-left:auto;display:flex;align-items:center;gap:3px}
+.tip-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.tip-btn svg{transition:transform 0.22s ease}
+.tip-btn.open svg{transform:rotate(180deg)}
+.tip-btn.open{border-color:var(--cyan);color:var(--cyan);background:rgba(97,218,251,.06)}
+.sub-tip-wrap{max-height:0;overflow:hidden;transition:max-height 0.28s cubic-bezier(0.4,0,0.2,1)}
+.sub-tip-wrap.open{max-height:220px}
+.sub-tip-inner{margin:0 14px 8px 37px;padding:10px 14px;background:rgba(97,218,251,.04);border-left:2px solid rgba(97,218,251,.2);border-radius:0 6px 6px 0}
+.tip-text{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:6px}
+.tip-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--cyan);text-decoration:none;font-weight:500}
+.tip-link:hover{text-decoration:underline}
+
+/* ── DAY CARD WEEK BORDERS ── */
+.day-card{border-left:3px solid transparent}
+.day-card.wk1{border-left-color:rgba(227,179,65,.4)}
+.day-card.wk2{border-left-color:rgba(163,113,247,.4)}
+.day-card.wk3{border-left-color:rgba(56,139,253,.4)}
+.day-card.wk4{border-left-color:rgba(63,185,80,.4)}
+.day-card.day-done.wk1,.day-card.day-done.wk2,.day-card.day-done.wk3,.day-card.day-done.wk4{border-left-color:var(--green)}
+
+/* ── SECTION HEADING PILLS ── */
+.section-heading{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px}
+.learn-heading{background:rgba(97,218,251,.1);color:var(--cyan)}
+.practice-heading{background:rgba(240,136,62,.1);color:var(--orange)}
+
+/* ── CHECKBOX POP ANIMATION ── */
+@keyframes checkPop{0%{transform:scale(0.6)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.sub-item.done .chk{animation:checkPop 0.25s ease forwards}
+</style>
+</head>
+<body>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <svg width="30" height="30" viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="10" fill="#61dafb"/>
+      <ellipse cx="50" cy="50" rx="46" ry="18" stroke="#61dafb" stroke-width="5" fill="none"/>
+      <ellipse cx="50" cy="50" rx="46" ry="18" stroke="#61dafb" stroke-width="5" fill="none" transform="rotate(60 50 50)"/>
+      <ellipse cx="50" cy="50" rx="46" ry="18" stroke="#61dafb" stroke-width="5" fill="none" transform="rotate(120 50 50)"/>
+    </svg>
+    <div><div class="sb-logo-text">30-Day React Plan</div><div class="sb-logo-sub">2 Yrs Experience Level</div></div>
+  </div>
+  <div class="sb-prog-wrap">
+    <div class="sb-prog-label"><span>Overall Progress</span><span class="sb-prog-pct" id="sb-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="sb-fill" style="width:0%"></div></div>
+  </div>
+  <div class="sb-weeks" id="sb-weeks"></div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<button class="hamburger" id="hamburger" onclick="openSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="main">
+  <header class="topbar">
+    <span class="topbar-title">30-Day React.js Mastery</span>
+    <div class="topbar-right">
+      <div class="stats-row">
+        <div class="stat"><div class="stat-val" id="top-done">0</div><div class="stat-lbl">Done</div></div>
+        <div class="stat"><div class="stat-val" id="top-total">0</div><div class="stat-lbl">Total</div></div>
+        <div class="stat"><div class="stat-val" id="top-pct">0%</div><div class="stat-lbl">Complete</div></div>
+      </div>
+      <button class="reset-btn" onclick="confirmReset()">Reset All</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-badge">⚡ 30-Day Intensive Plan</div>
+    <h1 class="hero-title">Master <span>React.js</span> in<br>30 Days</h1>
+    <p class="hero-desc">An intensive, production-focused plan for developers with 2 years of experience at product companies. Each day targets the exact depth and patterns expected at senior level — hooks internals, RTK Query, TypeScript generics, testing strategy, RSC, CI/CD.</p>
+    <div class="hero-meta">
+      <div class="hm-item"><div class="hm-icon">⏱</div><div><div style="font-size:10px;color:var(--text3)">Commitment</div><strong>4–5 hrs/day</strong></div></div>
+      <div class="hm-item"><div class="hm-icon">📊</div><div><div style="font-size:10px;color:var(--text3)">Level</div><strong>Intermediate → Senior</strong></div></div>
+      <div class="hm-item"><div class="hm-icon">🏗️</div><div><div style="font-size:10px;color:var(--text3)">Mini Projects</div><strong>4 Weekly Builds</strong></div></div>
+      <div class="hm-item"><div class="hm-icon">📦</div><div><div style="font-size:10px;color:var(--text3)">Topics</div><strong>30 Focused Days</strong></div></div>
+    </div>
+    <div class="cal-section">
+      <div class="cal-title">Progress Calendar</div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(227,179,65,.4)"></div>Week 1 — JS + React Core</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(163,113,247,.4)"></div>Week 2 — Hooks + State</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(56,139,253,.4)"></div>Week 3 — Router + TS + Perf</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(63,185,80,.4)"></div>Week 4 — Testing + Next.js + Prod</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="content" id="day-content"></main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const WEEKS = [
+  { n:1, label:'Week 1 — JavaScript + React Core', color:'var(--w1)', cls:'wl-1', days:[1,2,3,4,5,6,7] },
+  { n:2, label:'Week 2 — Hooks Deep Dive + State Management', color:'var(--w2)', cls:'wl-2', days:[8,9,10,11,12,13,14] },
+  { n:3, label:'Week 3 — Router · TypeScript · Performance · Styling', color:'var(--w3)', cls:'wl-3', days:[15,16,17,18,19,20,21] },
+  { n:4, label:'Week 4 — Testing · Next.js · Production', color:'var(--w4)', cls:'wl-4', days:[22,23,24,25,26,27,28,29,30] },
+];
+
+const DAYS = [
+// ─── WEEK 1 ───────────────────────────────────────────────────────────────
+{
+  day:1, week:1, emoji:'⚡', color:'#e3b341',
+  theme:'JavaScript Foundations',
+  title:'Closures, Scope & the Execution Model',
+  focus:'The root cause of most React bugs lives here — understand it once, debug faster forever.',
+  learn:[
+    { group:'Execution Context & Scope', items:[
+      ['How JS creates an execution context (global, function, eval)', 'Every function call creates a new execution context with its own variable object and scope chain. The global context is created once when the script loads. Understanding this is the foundation for debugging variable lookup bugs.', 'https://javascript.info/closure', 'javascript.info — Variable Scope'],
+      'The scope chain — how JS resolves variable names',
+      ['Lexical scope vs dynamic scope — why JS chose lexical', 'Lexical scope means scope is determined by where you write the code, not where you call it. This makes code predictable — you can always tell what a variable refers to just by reading the source.', '', ''],
+      'Temporal Dead Zone: why `let`/`const` throw before declaration',
+      'Hoisting: what actually gets hoisted (declarations, not initializations)',
+    ]},
+    { group:'Closures in Depth', items:[
+      'Closure definition: function + its lexical environment',
+      ['Closures retaining references, not values — the loop bug', 'Classic loop bug: `for(var i=0;i<3;i++) setTimeout(()=>console.log(i),0)` logs 3,3,3 not 0,1,2 — all callbacks share the same `i` reference. Fix with `let` (block scope) or an IIFE.', 'https://javascript.info/closure#tasks', 'javascript.info — Closure Tasks'],
+      'Practical patterns: module pattern, memoize, once()',
+      'Memory implications: when closures hold large data accidentally',
+      ['Closures powering React hooks (useState stores value in closure)', 'React keeps hook state in a linked list on the fiber node. Each hook call reads from the current position in that list. The component function\'s closure captures the state values from the current render — that\'s why stale closures happen.', '', ''],
+    ]},
+    { group:'Stale Closures (React-critical)', items:[
+      ['What a stale closure is and why it breaks React code', 'A stale closure captures an old value from a previous render. The function still exists and runs, but it sees outdated state/props. This is the #1 source of subtle React bugs, especially inside useEffect and setTimeout.', '', ''],
+      'The counter setInterval bug — canonical example',
+      'Why useEffect deps array exists (captures stale closure)',
+      'useRef as escape hatch for latest-value access',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Implement memoize(fn) using closures — handle multi-arg with JSON key',
+      'Implement once(fn) — returns result of first call, ignores rest',
+      'Fix the classic loop-closure bug in 3 different ways',
+      'Write a createCounter() factory with increment/decrement/reset',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'javascript.info — Closures', url:'https://javascript.info/closure'},
+    {type:'book',  name:"You Don't Know JS: Scope & Closures", url:'https://github.com/getify/You-Dont-Know-JS/tree/2nd-ed/scope-closures'},
+    {type:'video', name:'Web Dev Simplified — Closures', url:'https://www.youtube.com/@WebDevSimplified'},
+  ]
+},
+{
+  day:2, week:1, emoji:'🔗', color:'#e3b341',
+  theme:'JavaScript Foundations',
+  title:'`this`, Prototypes & Modern ES6+ Patterns',
+  focus:'Arrow functions behave differently in React event handlers vs class methods — you must know why.',
+  learn:[
+    { group:'`this` Binding Rules', items:[
+      'Default binding (sloppy mode vs strict mode)',
+      ['Implicit binding — object method calls', 'When a function is called as `obj.method()`, `this` is `obj`. If you detach the method (e.g., `const fn = obj.method; fn()`), you lose the binding — `this` becomes undefined in strict mode. This is why React class event handlers need `.bind(this)`.', '', ''],
+      'Explicit binding: call(), apply(), bind()',
+      'New binding — constructor functions',
+      ['Arrow functions: no own `this`, inherit from enclosing lexical scope', 'Arrow functions capture `this` from their enclosing lexical scope at definition time, not call time. This makes them ideal for React event handlers in class components and for callbacks that need to preserve `this`.', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions', 'MDN — Arrow Functions'],
+      'DOM event handler `this` — why React uses arrow functions or bind',
+    ]},
+    { group:'Prototypal Inheritance', items:[
+      ['Prototype chain — property lookup mechanism', 'When you access a property on an object, JS first checks the object itself, then its prototype, then the prototype\'s prototype, until it finds the property or reaches null. This chain is what class inheritance uses under the hood.', '', ''],
+      'Object.create() for manual prototype setup',
+      'Class syntax as sugar over prototypes',
+      'instanceof, hasOwnProperty in practice',
+      'Why React class components used `this` everywhere',
+    ]},
+    { group:'ES6+ Patterns (React-daily)', items:[
+      'Destructuring: nested objects, renaming, defaults, array swap',
+      ['Spread/rest: merging state objects immutably', 'Always spread existing state when updating objects: `setState(prev => ({...prev, name: newName}))`. Without the spread you replace the entire object, losing all other fields. Nested objects need nested spreads: `{...prev, address: {...prev.address, city: newCity}}`.', '', ''],
+      ['Optional chaining `?.` — safe navigation in component props', 'Safely access deeply nested props without null-check boilerplate: `user?.profile?.avatar?.url`. Short-circuits to `undefined` at the first nullish value instead of throwing. Works with method calls: `array?.map(fn)` and bracket notation: `obj?.[key]`.', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining', 'MDN — Optional Chaining'],
+      'Nullish coalescing `??` vs `||` — critical difference for falsy values',
+      'Logical assignment: `??=`, `||=`, `&&=`',
+      'Dynamic property names in state updates',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Implement Function.prototype.bind() polyfill from scratch',
+      'Write a deep clone utility using recursion + typeof checks',
+      'Create a state merge helper: mergeState(prev, patch) → immutable',
+      'Identify all 4 `this`-binding types in a given code snippet',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'MDN — this keyword', url:'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this'},
+    {type:'book',  name:"You Don't Know JS: this & Object Prototypes", url:'https://github.com/getify/You-Dont-Know-JS/tree/2nd-ed/this-object-prototypes'},
+    {type:'video', name:'Fireship — JS Pro Tips', url:'https://www.youtube.com/@Fireship'},
+  ]
+},
+{
+  day:3, week:1, emoji:'⏳', color:'#e3b341',
+  theme:'JavaScript Foundations',
+  title:'Async JavaScript: Event Loop, Promises & Async/Await',
+  focus:'Race conditions and incorrect loading states are async bugs. Master the mental model before any data-fetching hook.',
+  learn:[
+    { group:'Event Loop Architecture', items:[
+      ['Call stack, Web APIs, callback queue, microtask queue', 'JS is single-threaded but non-blocking via the event loop. Async work (fetch, setTimeout) is offloaded to Web APIs. When complete, callbacks are queued. The event loop processes the microtask queue (Promises) completely before picking one macrotask (setTimeout).', 'https://www.youtube.com/watch?v=cCOL7MC4Pl0', 'Jake Archibald — Event Loop Talk'],
+      ['Why microtasks (Promises) run before macrotasks (setTimeout)', 'After every task, JS drains the entire microtask queue before running the next task. This means `Promise.resolve().then(fn)` always runs before `setTimeout(fn, 0)`, even when setTimeout has 0ms delay.', '', ''],
+      'How React 18 batching leverages the microtask queue',
+      'Blocking the event loop — what it means, why it freezes UI',
+    ]},
+    { group:'Promises Deep Dive', items:[
+      'Promise states: pending, fulfilled, rejected',
+      'then/catch/finally chaining — return value propagation',
+      ['Promise.all — fail-fast behavior, all-or-nothing', 'Promise.all([p1,p2,p3]) resolves when ALL resolve, or rejects immediately when ANY one rejects. Use it when you need all results and a single failure should abort. For independent requests where you want all results, use Promise.allSettled instead.', 'https://javascript.info/promise-api', 'javascript.info — Promise API'],
+      'Promise.allSettled — get all results regardless of failure',
+      'Promise.race — first to settle wins (timeout patterns)',
+      'Promise.any — first to fulfill wins (fallback patterns)',
+      'Creating your own promisified functions',
+    ]},
+    { group:'Async/Await & AbortController', items:[
+      'async/await as Promise syntactic sugar',
+      ['Parallel vs sequential awaits — performance difference', 'Sequential: `const a = await fetchA(); const b = await fetchB()` — B starts only after A completes. Parallel: `const [a,b] = await Promise.all([fetchA(), fetchB()])` — both start simultaneously. Sequential unnecessarily doubles load time when requests are independent.', '', ''],
+      ['AbortController — canceling in-flight requests in React', 'Without AbortController, a fast typist triggers multiple searches and the slowest response wins — a race condition. Create a controller per effect, pass its signal to fetch, and call abort() in the cleanup function. The effect re-runs with each new query, canceling the previous.', 'https://developer.mozilla.org/en-US/docs/Web/API/AbortController', 'MDN — AbortController'],
+      'Fetch API — status checking, JSON parsing, error handling',
+      'Axios vs Fetch — interceptors, automatic JSON, error status',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Implement retryFetch(url, retries, delay) with exponential backoff',
+      'Write parallelFetch(urls) — all parallel, return results in order',
+      'Build a timeout wrapper: withTimeout(promise, ms)',
+      'Implement a request deduplication cache (memoized fetch)',
+    ]},
+  ],
+  resources:[
+    {type:'video', name:'Jake Archibald — Event Loop Talk', url:'https://www.youtube.com/watch?v=cCOL7MC4Pl0'},
+    {type:'doc',   name:'javascript.info — Promises', url:'https://javascript.info/promise-basics'},
+    {type:'doc',   name:'MDN — AbortController', url:'https://developer.mozilla.org/en-US/docs/Web/API/AbortController'},
+  ]
+},
+{
+  day:4, week:1, emoji:'⚛️', color:'#e3b341',
+  theme:'React Core',
+  title:'React Architecture: Virtual DOM, JSX & Components',
+  focus:'Understanding reconciliation lets you predict exactly when and why React re-renders — essential for debugging.',
+  learn:[
+    { group:'React Internals (Conceptual)', items:[
+      ['Virtual DOM as a lightweight JS object tree', 'React creates a plain JS object representation of your UI. When state changes, it creates a new virtual tree and diffs it against the previous one (reconciliation). Only the actual DOM changes that are necessary are applied — this is much faster than re-rendering all DOM nodes.', 'https://react.dev/learn/preserving-and-resetting-state', 'react.dev — Preserving and Resetting State'],
+      ['Diffing algorithm: same-level comparison, key heuristics', 'React only compares elements at the same level of the tree. If the element type changes (div→section), React destroys and recreates the entire subtree. Keys help React identify which items moved vs were added/removed in lists.', '', ''],
+      'Fiber architecture: incremental rendering, work units',
+      ['Concurrent Mode: interruptible rendering (React 18)', 'React 18\'s scheduler can pause rendering work to handle higher-priority updates (like user input). This means expensive renders don\'t block the UI. useTransition and useDeferredValue opt into this behavior explicitly.', 'https://react.dev/blog/2022/03/29/react-v18', 'react.dev — React 18 Release Post'],
+      'StrictMode: double-invokes effects/renders to catch side-effects',
+      'Why React.createElement exists and what JSX compiles to',
+    ]},
+    { group:'JSX In Depth', items:[
+      'JSX is not HTML — className, htmlFor, style={{}} object',
+      ['Short-circuit `&&` gotcha with 0 (use !! or ternary)', 'When `count` is 0, `{count && <List/>}` renders the number 0 to the screen — React renders falsy numbers but not false/null/undefined. Fix: `{count > 0 && <List/>}` or `{!!count && <List/>}` or `{count ? <List/> : null}`.', '', ''],
+      'Fragments <> and <React.Fragment key={}>',
+      'Expressions inside JSX — what is and isn\'t allowed',
+      'Spreading props: {...props} safely + rest props pattern',
+      'JSX as return value, stored in variables, passed as props',
+    ]},
+    { group:'Component Architecture', items:[
+      'Function components — the only pattern you should write',
+      'Component naming: PascalCase required (React parser rule)',
+      ['Props immutability contract — never mutate props', 'React treats component props as read-only. Mutating props directly breaks the data-flow model and causes unpredictable bugs because the parent doesn\'t know its data changed. Always derive new values or lift state to the nearest common ancestor.', '', ''],
+      'children prop: ReactNode type, multiple children, render functions',
+      ['React.forwardRef: exposing DOM nodes to parent components', 'By default, a ref attached to a custom component returns null. forwardRef() lets the parent reach the internal DOM node — useful for focus management, animations, and measurements. In React 19, forwardRef is no longer needed as refs can be passed as regular props.', 'https://react.dev/reference/react/forwardRef', 'react.dev — forwardRef'],
+      'Composing small components vs. one large component',
+      'displayName for DevTools readability',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Set up Vite + React (not CRA) with absolute import aliases',
+      'Build a Card component: image, title, description, actions slot via children',
+      'Create a Stack layout component using children + gap/direction props',
+      'Observe StrictMode double-invocation in DevTools console',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — Describing the UI', url:'https://react.dev/learn/describing-the-ui'},
+    {type:'video', name:'Fireship — React in 100 Seconds', url:'https://youtu.be/Tn6-PIqc4UM'},
+    {type:'doc',   name:'Vite — Getting Started', url:'https://vitejs.dev/guide'},
+  ]
+},
+{
+  day:5, week:1, emoji:'🎛️', color:'#e3b341',
+  theme:'React Core',
+  title:'State, Events, Forms & Lifting State',
+  focus:'Controlled forms and proper state design are what separate senior React code from junior React code.',
+  learn:[
+    { group:'useState Internals', items:[
+      ['useState triggers a re-render — React replaces the old fiber node', 'Calling setState schedules a re-render. React won\'t immediately re-render — it queues the update, and on the next tick re-runs your component function with the new state value. The old state is still accessible in the current render\'s closure.', '', ''],
+      ['Functional updates: setState(prev => newVal) — when and why required', 'When multiple state updates depend on the previous value (e.g., inside a closure that captures stale state), always use the functional form: `setCount(c => c + 1)`. This reads from the actual current state, not the stale closure value.', 'https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state', 'react.dev — Functional Updates'],
+      'Lazy initialization: useState(() => expensiveDefault())',
+      ['Batching in React 18: all setState calls in any async context are batched', 'Before React 18, multiple setState calls inside async callbacks (setTimeout, fetch.then) each triggered a separate render. React 18 batches all updates within the same async "tick" into one render. Use flushSync() to opt out.', '', ''],
+      'Derived state anti-pattern: storing computed values in state',
+      'Immutable update patterns: objects, arrays, nested structures',
+    ]},
+    { group:'Event Handling', items:[
+      'Synthetic events: React\'s cross-browser wrapper',
+      'event.preventDefault() and event.stopPropagation()',
+      ['Passing data to handlers: arrow function vs useCallback', 'Inline arrow functions in JSX (`onClick={() => handler(item.id)}`) create a new function reference each render. For list items this is fine. But for React.memo children it defeats memoization — extract with useCallback to get a stable reference.', '', ''],
+      'Handler naming: onClick vs handleClick convention',
+      'Key events, form events, pointer events',
+    ]},
+    { group:'Forms: Controlled vs Uncontrolled', items:[
+      ['Controlled inputs: value + onChange — single source of truth', 'A controlled input has its value driven by React state. React is always the source of truth — the input can\'t change without triggering onChange and updating state. This enables real-time validation, formatting, and synchronized displays.', '', ''],
+      'Uncontrolled inputs: useRef + defaultValue — when appropriate',
+      'Form state: single object vs individual useState calls',
+      ['Lifting state up: moving shared state to nearest common ancestor', 'When two sibling components need to share state, move the state to their nearest common parent and pass it down as props. The parent becomes the single source of truth. This is the core data-flow pattern in React — downward data, upward events.', 'https://react.dev/learn/sharing-state-between-components', 'react.dev — Sharing State'],
+      'Validation on change vs on blur vs on submit',
+      'File inputs — always uncontrolled, value is read-only',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a real-time search filter: input + filtered list (derived state, NOT separate useState)',
+      'Create a multi-field form with inline validation (email regex, password min-length)',
+      'Implement a shopping cart: items in parent, Add/Remove in children (lifted state)',
+      'Build a controlled <Select> wrapper component with custom styling',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — Adding Interactivity', url:'https://react.dev/learn/adding-interactivity'},
+    {type:'doc',   name:'react.dev — Managing State', url:'https://react.dev/learn/managing-state'},
+    {type:'video', name:'Web Dev Simplified — React Forms', url:'https://www.youtube.com/@WebDevSimplified'},
+  ]
+},
+{
+  day:6, week:1, emoji:'🧩', color:'#e3b341',
+  theme:'React Core',
+  title:'Rendering Patterns, Lists, Portals & Composition',
+  focus:'Keys, Portals and composition patterns are daily tools at product companies — know them cold.',
+  learn:[
+    { group:'Conditional Rendering', items:[
+      'Short-circuit &&: beware falsy 0 — use !! or ternary',
+      'Ternary for if/else inline',
+      'Early return guard clauses for cleaner JSX',
+      ['Toggling with CSS (display:none) vs unmounting — performance tradeoff', 'CSS hide (display:none) preserves component state and skips re-mount cost — good for tabs. Unmounting clears state and frees memory — good for heavy widgets. The wrong choice creates sluggish tabs (full remount) or memory leaks (never unmounting).', '', ''],
+      'Rendering null: valid return, renders nothing',
+    ]},
+    { group:'Lists & Keys', items:[
+      ['Why keys are required: reconciler identity hint', 'Without keys, React uses position to identify list items. If you insert at the top, every item shifts — React re-renders them all and loses local state. Keys let React match old and new items by identity, not position.', 'https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key', 'react.dev — Keys'],
+      ['Key must be stable + unique among siblings (not index for dynamic lists)', 'Index keys cause bugs when items are reordered, inserted, or deleted — React keeps the component at position 0 alive and just updates props, which corrupts input state and animations. Use a stable ID from your data instead.', '', ''],
+      'Index as key: safe only for static, non-reorderable lists',
+      'UUID vs DB id vs stable string key strategies',
+      'Nested list keys: parent-child compound keys',
+      'Keys on Fragments: <React.Fragment key={id}>',
+    ]},
+    { group:'Portals & Composition', items:[
+      ['ReactDOM.createPortal(children, domNode) — renders outside parent DOM', 'Portals let you render a child into a different DOM node (e.g., document.body) while keeping it in the React component tree. Events still bubble up through the React tree as normal. Essential for modals that need to escape overflow:hidden or z-index stacking contexts.', 'https://react.dev/reference/react-dom/createPortal', 'react.dev — createPortal'],
+      'Use cases: modals, tooltips, toasts, dropdowns (z-index/overflow issues)',
+      'Events still bubble through React tree despite DOM position',
+      'Composition over prop drilling: children, render props, slots',
+      'React.Children utilities — when relevant',
+      'Containment vs specialization pattern',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a Modal component using createPortal with focus trap + ESC close',
+      'Build a Virtualized-aware list component (render first 50, load more on scroll)',
+      'Implement a Tabs component using composition (not prop-drilling)',
+      'Debug a key bug: reproduce incorrect animation/state when using index as key',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — Portals', url:'https://react.dev/reference/react-dom/createPortal'},
+    {type:'doc',   name:'react.dev — Rendering Lists', url:'https://react.dev/learn/rendering-lists'},
+    {type:'video', name:'Jack Herrington — Composition Patterns', url:'https://www.youtube.com/@jherr'},
+  ]
+},
+{
+  day:7, week:1, emoji:'🏗️', color:'#e3b341',
+  theme:'Week 1 Project Day',
+  title:'Build: Multi-Step Form with Wizard State Machine',
+  focus:'Apply closures, controlled forms, composition, portals, and lifted state in one cohesive app.',
+  milestone:true,
+  milestoneText:'Week 1 complete! You\'ve covered the JS + React fundamentals expected of a senior developer.',
+  learn:[
+    { group:'Architecture Before Building', items:[
+      ['Sketch the component tree on paper before writing code', 'Always spend 10 minutes designing before coding. Identify components, their props, and where state lives. A bad architecture is expensive to refactor mid-build. The question to answer: "Who owns this data, and who needs to read/write it?"', '', ''],
+      'Identify where state lives: form data, current step, validation errors',
+      'Decide: one reducer vs multiple useState calls — justify your choice',
+      'Plan the URL strategy: should step be in URL (useSearchParams)?',
+    ]},
+    { group:'Features to Implement', items:[
+      'Step indicator (breadcrumb style) — current/completed/upcoming states',
+      'Step components: Personal Info, Address, Review & Submit',
+      ['Validation per step: block "Next" if invalid, show errors on blur', 'Validate on blur (when user leaves a field) not on every keystroke — validating while typing is annoying. Show errors on submit attempt, then validate on change once the user has tried to submit. This is the standard UX pattern.', '', ''],
+      'Back navigation: preserve filled data on back-step',
+      'Summary step: display all entered data before submit',
+      'Success modal using createPortal on successful submit',
+    ]},
+  ],
+  practice:[
+    { group:'Review Checklist', items:[
+      'No index-as-key warnings in console',
+      'No derived state stored in useState (compute from source of truth)',
+      'All event handlers use functional setState where reading prev state',
+      'Modal renders in document.body via portal',
+      'Form is accessible: labels, error aria-describedby, submit button type',
+    ]},
+  ],
+  resources:[
+    {type:'practice', name:'CodeSandbox — Fork & Build', url:'https://codesandbox.io/s/new'},
+    {type:'repo',    name:'Bulletproof React — Folder Structure', url:'https://github.com/alan2207/bulletproof-react'},
+    {type:'doc',     name:'react.dev — Thinking in React', url:'https://react.dev/learn/thinking-in-react'},
+  ]
+},
+// ─── WEEK 2 ───────────────────────────────────────────────────────────────
+{
+  day:8, week:2, emoji:'🔄', color:'#a371f7',
+  theme:'Hooks Deep Dive',
+  title:'useEffect: Dependencies, Timing & Cleanup',
+  focus:'useEffect is the most misused hook. Senior devs know the dependency rules without ESLint telling them.',
+  learn:[
+    { group:'useEffect Mental Model', items:[
+      ['useEffect runs after paint — not during render', 'Effects run asynchronously after the browser has painted. This means the user sees the UI before the effect fires. If you need to read layout or prevent a flash, use useLayoutEffect instead (synchronous, before paint).', 'https://react.dev/learn/synchronizing-with-effects', 'react.dev — Synchronizing with Effects'],
+      'useLayoutEffect runs synchronously after DOM mutation, before paint',
+      ['The dependency array: React\'s way to capture closure over latest values', 'The deps array doesn\'t "watch" values — it tells React when to re-synchronize the effect. React compares each dep with Object.is() between renders. If any changed, the cleanup runs and the effect runs again.', '', ''],
+      'What happens with []: runs once after mount, cleanup on unmount',
+      'What happens with no array: runs after every render (almost always wrong)',
+      'When to choose useLayoutEffect: reading layout, preventing flicker',
+    ]},
+    { group:'Dependency Array Rules', items:[
+      ['Every reactive value used inside must be in the array', 'If you read state, props, or any value defined inside the component inside an effect, it must be in the deps array. Omitting deps causes stale closure bugs. Adding too many causes infinite loops. ESLint\'s exhaustive-deps catches most cases.', '', ''],
+      '"Reactive value": state, props, context, variables declared in component',
+      ['Functions as deps: they change every render — stabilize with useCallback', 'Functions created inside components get a new reference on every render. Listing them as deps causes the effect to re-run every render. Wrap with useCallback (with its own deps) to stabilize the reference, or move the function inside the effect.', 'https://react.dev/learn/removing-effect-dependencies#move-dynamic-objects-and-functions-inside-your-effect', 'react.dev — Remove Effect Deps'],
+      'Objects as deps: they change every render — stabilize with useMemo',
+      'ESLint rule `exhaustive-deps`: obey it, don\'t disable it',
+      'Removing a dep: move the logic outside component, or extract custom hook',
+    ]},
+    { group:'Cleanup & Race Conditions', items:[
+      ['Cleanup function: returned from useEffect, runs before next effect or unmount', 'The cleanup function runs when deps change (before the next effect) and on unmount. Use it to cancel fetches, clear timers, remove event listeners, and unsubscribe. Without cleanup, you get memory leaks and state updates on unmounted components.', '', ''],
+      ['AbortController pattern: cancel stale fetch when deps change', 'Create `const ac = new AbortController()` inside the effect, pass `ac.signal` to fetch, and `return () => ac.abort()` as cleanup. When the effect re-runs (search term changed), the in-flight request is cancelled and you never get the stale response.', 'https://react.dev/learn/synchronizing-with-effects#fetching-data', 'react.dev — Fetching Data'],
+      'Boolean flag pattern: ignore() = true in cleanup (pre-AbortController)',
+      'Subscription cleanup: clearInterval, removeEventListener, unsubscribe',
+      'StrictMode double-invocation — why cleanup must fully reverse the effect',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Implement useDocumentTitle(title) custom hook with cleanup',
+      'Implement useEventListener(event, handler, element) with cleanup',
+      'Fix the race condition in a naive search-as-you-type useEffect fetch',
+      'Add AbortController to a data-fetching useEffect — test in DevTools throttled',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — Synchronizing with Effects', url:'https://react.dev/learn/synchronizing-with-effects'},
+    {type:'doc',   name:'react.dev — You Might Not Need an Effect', url:'https://react.dev/learn/you-might-not-need-an-effect'},
+    {type:'video', name:'Jack Herrington — useEffect Deep Dive', url:'https://www.youtube.com/@jherr'},
+  ]
+},
+{
+  day:9, week:2, emoji:'🔮', color:'#a371f7',
+  theme:'Hooks Deep Dive',
+  title:'useRef, useContext & Context Architecture',
+  focus:'Context re-render bugs silently destroy performance. Know how to split and memoize contexts.',
+  learn:[
+    { group:'useRef Patterns', items:[
+      ['Two use-cases: DOM reference + mutable value without re-render', 'useRef serves two distinct purposes: (1) holding a DOM node for imperative operations like focus() and scroll, and (2) holding a mutable value that persists across renders without triggering re-renders — like a timer ID, previous value, or abort controller.', 'https://react.dev/reference/react/useRef', 'react.dev — useRef'],
+      'ref.current does NOT trigger re-render when mutated',
+      ['Callback refs: ref as function for complex DOM measurement', 'Instead of passing a ref object, pass a function: `ref={(node) => { if(node) doSomething(node); }}`. The function is called when the DOM node is attached/detached. Use this for measuring element dimensions or setting up third-party integrations.', '', ''],
+      'Previous value pattern: store prev state in ref inside useEffect',
+      'useRef vs useState: choose ref when you don\'t need the UI to update',
+      'forwardRef: exposing internal DOM ref to parent',
+    ]},
+    { group:'useContext In Depth', items:[
+      'Context as a pub/sub channel scoped to a React subtree',
+      ['Provider re-renders ALL consumers when value reference changes', 'If you put `value={{theme, setTheme}}` on your provider, a new object is created every render, re-rendering every consumer. Fix: wrap value in useMemo or split into separate state/dispatch contexts.', '', ''],
+      ['Memoizing context value with useMemo to prevent unnecessary re-renders', 'Wrap your context value: `const value = useMemo(() => ({theme, toggle}), [theme])`. Now consumers only re-render when `theme` actually changes, not on every parent re-render. Essential for performance in large trees.', 'https://react.dev/reference/react/useContext#optimizing-re-renders-when-passing-objects-and-functions', 'react.dev — Context Optimization'],
+      'Splitting contexts: separate ThemeContext from UserContext from CartContext',
+      'Context with default value — useful for optional providers',
+      'Anti-pattern: putting everything in one context',
+    ]},
+    { group:'Context + Custom Hook Pattern', items:[
+      ['Wrap useContext in a custom hook (e.g., useTheme, useUser)', 'Exposing `useContext(ThemeContext)` directly requires consumers to import both the hook and the context object. Wrapping it: `export function useTheme(){ const ctx = useContext(ThemeCtx); if(!ctx) throw new Error("useTheme must be inside ThemeProvider"); return ctx; }` is cleaner and fails fast if misused.', '', ''],
+      'Throw error when used outside provider — fail-fast pattern',
+      'Expose only what consumers need — surface area control',
+      'Context vs prop drilling — when each is appropriate',
+      'Context vs external state manager — the decision tree',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build ThemeContext with light/dark toggle + useTheme() hook (throws if used outside provider)',
+      'Implement useClickOutside(ref, callback) using ref + useEffect',
+      'Build a Tooltip component that uses useRef for positioning calculation',
+      'Reproduce a context re-render bug, then fix it by splitting the context',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — Passing Data Deeply', url:'https://react.dev/learn/passing-data-deeply-with-context'},
+    {type:'doc',   name:'react.dev — useRef Reference', url:'https://react.dev/reference/react/useRef'},
+    {type:'video', name:'Theo — Context Performance Problems', url:'https://www.youtube.com/@t3dotgg'},
+  ]
+},
+{
+  day:10, week:2, emoji:'⚡', color:'#a371f7',
+  theme:'Hooks Deep Dive',
+  title:'useMemo, useCallback, React.memo & Transitions',
+  focus:'Most premature optimization is worse than no optimization. Learn to profile first, then apply the right tool.',
+  learn:[
+    { group:'React.memo', items:[
+      ['Skips re-render if props are shallowly equal', 'React.memo wraps a component and bails out of re-rendering if all props are shallowly equal to the last render. Shallow equality: primitives compared by value, objects/arrays/functions compared by reference. A new `{}` or `[]` reference on every parent render defeats it.', 'https://react.dev/reference/react/memo', 'react.dev — memo'],
+      ['React.memo is worthless if parent passes new object/function each render', 'Common trap: `<MemoList items={[...items]} onAdd={() => handleAdd()} />` — both `items` (new array) and `onAdd` (new function) get new references every render. React.memo compares them with Object.is() and sees changes every time. Stabilize with useMemo/useCallback.', '', ''],
+      'When React.memo pays off: expensive child, frequently-changing parent',
+      'Comparison function (second arg): custom equality for complex props',
+    ]},
+    { group:'useMemo & useCallback', items:[
+      ['useMemo: memoize expensive computation result', 'useMemo caches the return value of a function between renders. Only recomputes when deps change. Use for: expensive sorts/filters on large arrays, derived data, stable object references passed to memoized children. Don\'t use for cheap operations — the cache overhead costs more.', '', ''],
+      ['useCallback: memoize function reference (stable reference for React.memo children)', 'useCallback(fn, deps) returns the same function reference between renders as long as deps don\'t change. Its only purpose is preventing re-renders in React.memo children that receive functions as props. useCallback without React.memo on the child is pointless.', '', ''],
+      'Both recalculate when deps change — wrong deps = stale value or no benefit',
+      ['Rule of thumb: profile first (React DevTools Profiler), memoize after', 'Premature memoization adds code complexity and memory overhead without guaranteeing a win. Open React DevTools Profiler, record interactions, find the slow components (wide bars in flamegraph), then apply targeted memoization. Measure again to confirm improvement.', '', ''],
+      'useCallback + React.memo: must use together — one without the other is useless',
+    ]},
+    { group:'React 18 Concurrent Features', items:[
+      ['useTransition: mark state update as non-urgent, keep UI responsive', 'Wrap a slow state update in startTransition to tell React it\'s deferrable. React keeps the current UI interactive (urgent updates take priority) and processes the transition update when idle. The isPending flag lets you show a loading indicator.', 'https://react.dev/reference/react/useTransition', 'react.dev — useTransition'],
+      'startTransition: wrap expensive state updates (navigation, search filter)',
+      'isPending: show spinner during transition without artificial loading state',
+      ['useDeferredValue: deferred version of a prop for expensive child', 'When you can\'t control the state setter (e.g., it\'s in a parent), use useDeferredValue to get a lagged copy of the value. The child re-renders with the deferred value while the parent shows the up-to-date value. Use for expensive render children driven by fast-changing props.', 'https://react.dev/reference/react/useDeferredValue', 'react.dev — useDeferredValue'],
+      'Difference: useTransition controls the setter, useDeferredValue controls the reader',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Use React DevTools Profiler to find slowest component in your Day 7 project',
+      'Apply React.memo + useCallback to fix an unnecessary re-render',
+      'Add useTransition to a search-filter: type in input, heavy list updates after',
+      'Implement an expensive sort: memoize with useMemo, verify with Profiler',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — React.memo', url:'https://react.dev/reference/react/memo'},
+    {type:'doc',   name:'react.dev — useTransition', url:'https://react.dev/reference/react/useTransition'},
+    {type:'video', name:'Jack Herrington — useMemo and useCallback', url:'https://www.youtube.com/@jherr'},
+  ]
+},
+{
+  day:11, week:2, emoji:'⚙️', color:'#a371f7',
+  theme:'Hooks Deep Dive',
+  title:'useReducer, Custom Hooks & Hook Architecture',
+  focus:'Custom hooks are the #1 abstraction in modern React. Every reusable behavior should be a custom hook.',
+  learn:[
+    { group:'useReducer', items:[
+      ['useReducer vs useState: choose reducer when next state depends on previous state + action', 'Use useReducer when: (1) state has multiple sub-values that update together, (2) the next state depends on complex logic from the previous state, (3) you want to colocate update logic away from the UI. It also makes testing easier — test the pure reducer function in isolation.', 'https://react.dev/reference/react/useReducer', 'react.dev — useReducer'],
+      'Reducer function: pure function, (state, action) => newState',
+      'Action objects: {type, payload} convention',
+      'Finite state machine with reducer: model valid state transitions explicitly',
+      'useReducer + useContext pattern: lightweight global state without Redux',
+      'Initializer function (third arg): lazy initialization like useState',
+    ]},
+    { group:'Custom Hook Architecture', items:[
+      ['Rules of Hooks: only call at top level, only call from React functions', 'Never call hooks inside conditions, loops, or nested functions. React tracks hooks by call order — if you skip a hook on one render, the order shifts and React reads the wrong state for every subsequent hook. The lint rule enforces this.', '', ''],
+      'Why rules exist: hooks rely on call order being stable across renders',
+      ['Naming: must start with "use" — enables lint rules and React DevTools', 'The "use" prefix is not just convention — it\'s what signals to React, ESLint, and DevTools that this is a hook. Without it, the exhaustive-deps rule won\'t analyze it, DevTools won\'t show it in the component tree, and React won\'t enforce the rules of hooks inside it.', '', ''],
+      'Return value shapes: [state, setter] tuple, or {data, loading, error} object',
+      'Composing custom hooks: useAuth uses useUser + usePermissions',
+      'Co-location: custom hooks in the same file when used in one component',
+    ]},
+    { group:'Production-Grade Custom Hooks', items:[
+      ['useDebounce(value, delay) — debounce rapidly-changing values', 'Debouncing delays processing until a user pauses. `useDebounce(searchTerm, 300)` returns a value that only updates 300ms after the user stops typing. Use it as the query key for TanStack Query or in a useEffect dep array to avoid firing a request on every keystroke.', '', ''],
+      'useLocalStorage(key, defaultValue) — sync with localStorage, handle JSON',
+      'useAsync(asyncFn, deps) — manage loading/error/data state',
+      ['usePrevious(value) — track previous render value via ref', 'Store the previous value in a ref that updates after render: `const ref = useRef(); useEffect(() => { ref.current = value; }); return ref.current;`. The ref update happens after render, so during render `ref.current` still holds the previous value.', '', ''],
+      'useMediaQuery(query) — subscribe to CSS media query changes',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Implement a shopping cart with useReducer: ADD, REMOVE, UPDATE_QTY, CLEAR actions',
+      'Build useLocalStorage hook — handles SSR (check typeof window), JSON.parse safety',
+      'Create useDebounce and wire it to a search input — verify with DevTools network tab',
+      'Implement useAsync(fn) — returns {status, data, error}, handles race conditions',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'react.dev — useReducer', url:'https://react.dev/reference/react/useReducer'},
+    {type:'repo',  name:'useHooks.com — Hook Recipes', url:'https://usehooks.com'},
+    {type:'course',name:'Epic React — Custom Hooks', url:'https://epicreact.dev'},
+  ]
+},
+{
+  day:12, week:2, emoji:'🗃️', color:'#a371f7',
+  theme:'State Management',
+  title:'Redux Toolkit: Slices, Thunks & RTK Query',
+  focus:'RTK is the Redux of 2024. RTK Query replaces most useEffect-based data fetching in enterprise apps.',
+  learn:[
+    { group:'Redux Toolkit Setup', items:[
+      ['createSlice: combines reducer + action creators in one — no more action type strings', 'createSlice generates action creators automatically from your reducer case names. The `actions` export gives you type-safe dispatch calls. No more manually maintaining action type string constants — RTK eliminates the most tedious Redux boilerplate.', 'https://redux-toolkit.js.org/api/createSlice', 'RTK — createSlice'],
+      ['Immer under the hood: "mutate" in reducers, Immer produces immutable update', 'RTK uses Immer, so you can write `state.user.name = action.payload` in reducers instead of `{...state, user: {...state.user, name: action.payload}}`. Immer tracks mutations and produces a new immutable object. You cannot return AND mutate — choose one.', '', ''],
+      'configureStore: wraps createStore + default middleware (redux-thunk, serializability check)',
+      'createAsyncThunk: generates pending/fulfilled/rejected action types automatically',
+      'extraReducers with builder pattern: handle thunk lifecycle in slice',
+      'Redux DevTools: time-travel debugging, action history, state diff',
+    ]},
+    { group:'RTK Query', items:[
+      ['createApi: define all endpoints in one place (REST or GraphQL)', 'RTK Query\'s createApi is a code-generation tool. You describe your endpoints once and it auto-generates React hooks (useGetProductsQuery, useCreateProductMutation), handles caching, deduplication, and background refetching. It replaces most manual useEffect data-fetching.', 'https://redux-toolkit.js.org/rtk-query/overview', 'RTK Query Overview'],
+      ['Cache invalidation: providesTags + invalidatesTags', 'Queries declare what data they provide (providesTags). Mutations declare what they invalidate (invalidatesTags). When a mutation fires, RTK Query automatically refetches any query whose tags match. This replaces manual queryClient.invalidateQueries() calls.', '', ''],
+      'fetchBaseQuery: thin wrapper over fetch with baseUrl + headers',
+      'Query endpoints: auto-generates useGetXQuery hooks',
+      'Mutation endpoints: auto-generates useCreateXMutation hooks',
+      'Automatic caching: cache keys from endpoint + args',
+      'Optimistic updates: updateQueryData + onQueryStarted',
+      'RTK Query vs TanStack Query: when to use each',
+    ]},
+    { group:'Advanced RTK Patterns', items:[
+      'createEntityAdapter: normalized state for collections (byId + allIds)',
+      'Selector memoization with createSelector (Reselect)',
+      'Code splitting RTK Query with injectEndpoints',
+      'Middleware for auth token injection (prepareHeaders)',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a product catalog: RTK slice for cart, RTK Query for products API',
+      'Add optimistic update: like a post — UI updates immediately, rolls back on error',
+      'Implement auth header injection in prepareHeaders',
+      'Use Redux DevTools to replay an action sequence and inspect state diff',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Redux Toolkit Docs', url:'https://redux-toolkit.js.org'},
+    {type:'doc',   name:'RTK Query Docs', url:'https://redux-toolkit.js.org/rtk-query/overview'},
+    {type:'video', name:'Dave Gray — Redux Toolkit Full Course', url:'https://www.youtube.com/@DaveGrayTeachesCode'},
+  ]
+},
+{
+  day:13, week:2, emoji:'🔷', color:'#a371f7',
+  theme:'State Management',
+  title:'Zustand & TanStack Query: Modern State Patterns',
+  focus:'Zustand + TanStack Query is the stack most new React projects at product companies are choosing in 2024.',
+  learn:[
+    { group:'Zustand', items:[
+      ['create() store: actions + state co-located (no reducer boilerplate)', 'Zustand is 1KB and requires zero boilerplate: `const useStore = create(set => ({ count: 0, inc: () => set(s => ({count: s.count+1})) }))`. No Provider needed. Components subscribe directly and only re-render when their selected slice changes.', 'https://github.com/pmndrs/zustand', 'Zustand GitHub'],
+      ['Selecting slices: useStore(state => state.count) prevents unnecessary re-renders', 'Always select only what you need: `const count = useStore(s => s.count)`. If you select the entire store `useStore()`, the component re-renders on any store change. Granular selectors = granular re-renders. For derived values, use the selector to compute inline.', '', ''],
+      'Actions inside the store: mutate state directly (Immer optional)',
+      'Zustand persist middleware: localStorage/sessionStorage sync',
+      'Zustand devtools middleware: Redux DevTools integration',
+      'Zustand vs Context: Zustand doesn\'t re-render on every selector result if unchanged',
+    ]},
+    { group:'TanStack Query (React Query)', items:[
+      ['useQuery(key, fetcher, options): data, isLoading, isError, isFetching', 'The query key is the cache key — treat it like a dependency array. `["users", userId]` caches per-user. `isFetching` is true during any background refetch (even when data exists). `isLoading` is true only on the first load when there\'s no cached data.', 'https://tanstack.com/query/latest/docs/framework/react/guides/queries', 'TanStack Query — Queries'],
+      ['staleTime vs cacheTime: stale = OK to serve + refetch bg; cache = memory retention', 'staleTime (default 0): how long before data is considered stale and eligible for background refetch. cacheTime (default 5min): how long unused data stays in memory before garbage collection. For data that rarely changes, set staleTime:Infinity to never refetch unless explicitly invalidated.', 'https://tkdodo.eu/blog/practical-react-query', 'TkDodo — Practical React Query'],
+      'QueryClient + QueryClientProvider: setup once at root',
+      'Query keys: treat as dependency array — objects/arrays are serialized',
+      'useMutation(mutatorFn, options): mutate, mutateAsync, onSuccess, onError',
+      'Invalidating queries after mutation: queryClient.invalidateQueries(key)',
+      'Optimistic updates with setQueryData + rollback in onError',
+      'useInfiniteQuery: fetchNextPage, hasNextPage for infinite scroll',
+    ]},
+    { group:'Architecture: Zustand + TanStack Query', items:[
+      ['Server state (TanStack Query) vs client/UI state (Zustand) separation', 'Server state is async, can be stale, has loading/error states, and is owned by the server. Client state is synchronous and owned by the app. TanStack Query is a server-state cache. Zustand is for UI state that lives only in the browser (modal open, selected tab, filter value).', '', ''],
+      'Never duplicate server data in Zustand — TanStack is the cache',
+      'Zustand for: modal open/close, selected item, filter values, theme',
+      'TanStack for: user data, product lists, any API response',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a Kanban board: Zustand for board UI state (dragging, modal), TanStack Query for task data',
+      'Implement infinite scroll on a post list using useInfiniteQuery',
+      'Optimistic delete: remove from cache immediately, restore on error',
+      'Zustand persist: shopping cart survives page refresh',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Zustand GitHub + Docs', url:'https://github.com/pmndrs/zustand'},
+    {type:'doc',   name:'TanStack Query Docs', url:'https://tanstack.com/query/latest'},
+    {type:'book',  name:'TkDodo Blog — Practical React Query', url:'https://tkdodo.eu/blog/practical-react-query'},
+  ]
+},
+{
+  day:14, week:2, emoji:'🏗️', color:'#a371f7',
+  theme:'Week 2 Project Day',
+  title:'Build: GitHub User Search App',
+  focus:'Wire together TanStack Query, Zustand, custom hooks, and React.memo in a real-world feature.',
+  milestone:true,
+  milestoneText:'Week 2 complete! Hooks, state management, and data fetching — the core of senior React work.',
+  learn:[
+    { group:'Architecture Plan', items:[
+      'TanStack Query: fetch user profile + repos from GitHub API',
+      'Zustand: recently searched users list (persist to localStorage)',
+      'useDebounce: debounce the search input before firing query',
+      'React.memo: memoize RepoCard to prevent re-renders on new search',
+      'useReducer: pagination state (page, perPage)',
+    ]},
+    { group:'Features to Implement', items:[
+      'Search input with debounce (useDebounce hook from Day 11)',
+      'User profile card: avatar, name, bio, follower counts',
+      'Repos list with pagination (useReducer for page state)',
+      'Recently searched sidebar (Zustand, persisted)',
+      'Loading skeleton UI during fetch (isLoading state)',
+      'Error boundary + error UI for API failures',
+    ]},
+  ],
+  practice:[
+    { group:'Review Checklist', items:[
+      'No useEffect for data fetching — all via TanStack Query',
+      'No duplicated server state in Zustand',
+      'Search debounced — confirm in Network tab (no request on every keystroke)',
+      'RepoCard wrapped in React.memo — verify in Profiler no re-renders on pagination',
+      'Error state renders a user-friendly message, not a crash',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'GitHub REST API Docs', url:'https://docs.github.com/en/rest'},
+    {type:'practice', name:'TanStack Query Playground', url:'https://tanstack.com/query/latest/docs/framework/react/examples/basic'},
+    {type:'repo',  name:'Bulletproof React Reference', url:'https://github.com/alan2207/bulletproof-react'},
+  ]
+},
+// ─── WEEK 3 ───────────────────────────────────────────────────────────────
+{
+  day:15, week:3, emoji:'🧭', color:'#388bfd',
+  theme:'Routing & Navigation',
+  title:'React Router v6: Full API & Advanced Patterns',
+  focus:'v6 is a full rewrite — nested routes via Outlet and data loaders are fundamentally different from v5.',
+  learn:[
+    { group:'React Router v6 Core', items:[
+      ['Outlet: renders matched child route inside parent layout', 'Outlet is a placeholder inside a layout component where the matched child route renders. The layout component (nav, sidebar) doesn\'t unmount on navigation — only the Outlet\'s content swaps. This is far more efficient than v5\'s approach of reimplementing layout in every route.', 'https://reactrouter.com/en/main/components/outlet', 'React Router — Outlet'],
+      ['useSearchParams: query string as state — prefer over useState for shareable UI state', 'URL search params are shareable, bookmarkable, and survive refresh. `const [params, setParams] = useSearchParams()` works like useState but synced to the URL. Use for: filter values, pagination, sort order, any UI state the user might want to share or bookmark.', '', ''],
+      'createBrowserRouter (recommended) vs BrowserRouter component',
+      'Route, Routes: route matching is exclusive (no Switch needed)',
+      'Link vs NavLink: NavLink adds active class automatically',
+      'useNavigate: programmatic navigation, replace option',
+      'useParams: typed route parameters',
+      'useLocation: access pathname, state, key',
+    ]},
+    { group:'Advanced Routing Patterns', items:[
+      ['Protected routes: wrapper component checking auth, redirect to /login', 'A ProtectedRoute component checks auth state and renders either `<Outlet/>` (authorized) or `<Navigate to="/login" replace/>` (unauthorized). Using `replace` prevents the login page from appearing in browser history — the back button won\'t loop back to it.', '', ''],
+      ['Lazy-loaded routes: React.lazy + import() at route level', 'Wrap each page: `const Dashboard = lazy(() => import("./pages/Dashboard"))`. React splits each lazily-imported module into a separate JS chunk. Users only download the code for routes they visit. Wrap in `<Suspense fallback={<Spinner/>}>` to show a loading state during the download.', 'https://react.dev/reference/react/lazy', 'react.dev — lazy'],
+      'Nested routes + layout routes: shared nav/sidebar without re-mounting',
+      'Index routes: default child when no sub-path matches',
+      'Error routes (errorElement): catch loader/action errors per-route',
+      '404 route: catch-all path="*"',
+    ]},
+    { group:'Data Router (v6.4+)', items:[
+      ['loader function: fetch data before component renders (no useEffect for route data)', 'Data loaders run before the route component renders, eliminating the loading-state pattern in components. Data is available immediately on render via useLoaderData(). This removes all useEffect+useState data-fetching from route-level components.', 'https://reactrouter.com/en/main/route/loader', 'React Router — Loader'],
+      'action function: handle form mutations server-side style',
+      'useLoaderData: access loader result in component',
+      'defer + Await: stream slow data, show fast data immediately',
+      'Benefit: eliminate loading states, waterfall fetches in route transitions',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build admin panel: /users, /users/:id, /settings with shared sidebar layout (Outlet)',
+      'Add protected route: redirect to /login if !isAuthenticated from Zustand store',
+      'Lazy-load each route — verify separate chunks in DevTools Network tab',
+      'Add useSearchParams for filter: ?status=active persists on refresh and back-nav',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'React Router v6 Docs', url:'https://reactrouter.com/en/main'},
+    {type:'video', name:'Web Dev Simplified — React Router v6', url:'https://www.youtube.com/@WebDevSimplified'},
+    {type:'doc',   name:'Data Router Guide', url:'https://reactrouter.com/en/main/routers/create-browser-router'},
+  ]
+},
+{
+  day:16, week:3, emoji:'🎨', color:'#388bfd',
+  theme:'Styling Solutions',
+  title:'CSS Modules, Tailwind CSS & Production Styling',
+  focus:'Tailwind is the default choice at most product companies. Learn the tradeoffs to make an informed case in arch reviews.',
+  learn:[
+    { group:'CSS Modules', items:[
+      'Scoped class names: prevents global CSS collisions',
+      'Naming convention: camelCase in JS (styles.cardHeader)',
+      'Composing classes: composes keyword for shared styles',
+      'CSS custom properties inside modules: still global, use :root',
+      'When CSS Modules shine: component libraries, large teams',
+    ]},
+    { group:'Tailwind CSS Deep Dive', items:[
+      'Utility-first: write styles inline, no context-switching',
+      ['JIT mode (default v3): only generates classes used in code', 'Tailwind\'s JIT compiler scans your source files for class names and only generates CSS for those it finds. The entire Tailwind CSS file is ~4MB, but a production build is typically 5-15KB. Never purge manually — configure the `content` array in tailwind.config.js to include all template files.', 'https://tailwindcss.com/docs/content-configuration', 'Tailwind — Content Configuration'],
+      'tailwind.config.js: extend colors, spacing, fonts with design tokens',
+      ['cn() / clsx utility: conditional class merging', '`cn(base, conditional)` from `clsx` + `tailwind-merge` merges class strings, deduplicates conflicting Tailwind classes (e.g., `p-2` and `p-4` → keeps the last), and handles conditional classes. Essential for variant-based components: `cn("btn", variant === "primary" && "bg-blue-500")`.', 'https://github.com/dcastil/tailwind-merge', 'tailwind-merge'],
+      'Responsive prefixes: sm: md: lg: xl: — mobile-first breakpoints',
+      'State variants: hover: focus: active: disabled: aria-: group-hover:',
+      'Dark mode: class strategy vs media strategy',
+      '@apply: extract repeated utilities into a semantic class (sparingly)',
+    ]},
+    { group:'Production Considerations', items:[
+      'Tailwind vs CSS-in-JS at scale: no runtime overhead, no hydration cost',
+      'Design tokens: map tailwind config to Figma variables',
+      'shadcn/ui: copy-paste components built on Radix + Tailwind — full ownership',
+      'Radix UI primitives: unstyled, accessible, compose with any styling',
+      'Class name merge utility: tailwind-merge prevents conflicting utilities',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Re-style the Day 7 multi-step form using Tailwind',
+      'Build a responsive dashboard layout: sidebar + main area (Tailwind grid/flex)',
+      'Create a Button component with variants: primary/secondary/danger using cn()',
+      'Implement dark mode toggle using Tailwind class strategy + localStorage',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Tailwind CSS Docs', url:'https://tailwindcss.com/docs'},
+    {type:'doc',   name:'shadcn/ui Components', url:'https://ui.shadcn.com'},
+    {type:'repo',  name:'tailwind-merge', url:'https://github.com/dcastil/tailwind-merge'},
+  ]
+},
+{
+  day:17, week:3, emoji:'🧱', color:'#388bfd',
+  theme:'Styling Solutions',
+  title:'Component Libraries, Design Systems & Headless UI',
+  focus:'At product companies, you integrate a design system — understanding its internals prevents customization frustration.',
+  learn:[
+    { group:'Material UI (MUI)', items:[
+      'ThemeProvider + createTheme: global design tokens',
+      'sx prop: inline styling with access to theme values',
+      'Component variants: defining reusable variant styles in theme',
+      'Overriding styles: styleOverrides in theme components',
+      'MUI system: spacing, colors mapped to CSS custom properties',
+      'When MUI is too heavy: tree-shaking, bundle size analysis',
+    ]},
+    { group:'Headless Component Philosophy', items:[
+      ['Headless = logic/a11y without styles — you own the UI', 'Headless libraries provide accessibility (ARIA attributes, keyboard navigation, focus management) and interaction logic, but zero CSS. You apply your own styling on top. This gives full visual control while getting battle-tested a11y for free — no fighting against library styles.', 'https://www.radix-ui.com/primitives', 'Radix UI Primitives'],
+      ['shadcn/ui: Radix + Tailwind, copy into your repo (not a dependency)', 'shadcn/ui components are copied directly into your codebase (not installed as an npm dependency). You own the code — full customization, no version lock-in, no fighting library defaults. The CLI copies components into `src/components/ui/`. Delete or modify anything freely.', 'https://ui.shadcn.com', 'shadcn/ui'],
+      'Radix UI: primitives (Dialog, Popover, Dropdown) — accessible out of box',
+      'Radix Compound pattern: Root, Trigger, Content, Item',
+      'React Aria (Adobe): most accessible headless library',
+      'TanStack Table: headless table logic — full UI control',
+    ]},
+    { group:'Building Your Own Design System', items:[
+      'Design tokens: color, spacing, typography, border-radius as CSS custom properties',
+      'Component API design: consistent variant prop pattern across all components',
+      'Storybook: document components, visual regression baseline',
+      'Chromatic: visual regression CI for Storybook',
+      'Accessibility-first: build a11y in, not added later',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a Dialog (Modal) using Radix Dialog + Tailwind — full custom styling',
+      'Create a DataTable using TanStack Table with sorting and pagination',
+      'Build a command palette (cmd+K) using Radix Dialog + Tailwind',
+      'Document 3 components in Storybook with controls and a11y addon',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Radix UI Primitives', url:'https://www.radix-ui.com/primitives'},
+    {type:'doc',   name:'MUI Documentation', url:'https://mui.com'},
+    {type:'doc',   name:'Storybook Docs', url:'https://storybook.js.org/docs/react/get-started/introduction'},
+  ]
+},
+{
+  day:18, week:3, emoji:'⚡', color:'#388bfd',
+  theme:'Performance Optimization',
+  title:'Code Splitting, Bundle Optimization & Lazy Loading',
+  focus:'A 3MB JS bundle means 10+ seconds on mid-tier mobile. Code splitting is non-negotiable at product scale.',
+  learn:[
+    { group:'Code Splitting Strategies', items:[
+      ['Route-based splitting: lazily import each page component (highest ROI)', 'Each page is the natural split point — users navigate to one route at a time. Lazy-loading routes can reduce initial bundle by 50-80% for multi-page apps. It\'s the single highest-ROI code splitting strategy. Vite automatically creates a separate chunk per lazy import.', '', ''],
+      ['Preloading: import() on hover/focus to load before user navigates', 'On mouse enter a link, call `import("./TargetPage")` to start downloading the chunk before the user clicks. By the time they click, the chunk is cached. React Router v6.4+ does this automatically for routes. You can implement it manually for any lazy component.', '', ''],
+      'React.lazy + Suspense: dynamic import at component level',
+      'Component-level splitting: lazy-load heavy components (charts, editors)',
+      'Splitting vendor code: framework vs app code (Vite does this automatically)',
+    ]},
+    { group:'Bundle Analysis', items:[
+      ['rollup-plugin-visualizer (Vite): see bundle composition as treemap', 'Add `visualizer()` to vite.config.ts plugins, run `vite build`, and open `stats.html`. You\'ll see a treemap of every module in your bundle — instantly reveals which packages dominate your bundle size. Common culprits: moment.js (67KB), lodash (71KB), date-fns full import.', 'https://github.com/btd/rollup-plugin-visualizer', 'rollup-plugin-visualizer'],
+      'webpack-bundle-analyzer: same for webpack projects',
+      ['Replacing heavy deps: date-fns instead of moment, dayjs for tiny bundle', 'moment.js is 67KB gzipped and can\'t be tree-shaken. date-fns is ~13KB when tree-shaken (import individual functions). dayjs is 2KB with a plugin system. For React projects, prefer date-fns for richness or dayjs for minimal size.', '', ''],
+      'Identifying large dependencies: lodash (use lodash-es + tree shaking), moment.js',
+      'Dynamic imports for large libraries: import chart.js only when chart renders',
+    ]},
+    { group:'Asset & Resource Optimization', items:[
+      'Image optimization: WebP/AVIF, width/height attrs to prevent CLS',
+      'Font optimization: font-display: swap, preconnect, subset fonts',
+      'Preload critical resources: <link rel="preload">',
+      'HTTP/2: multiplexing makes many small files OK',
+      'Module federation (advanced): micro-frontend bundle sharing',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Run rollup-plugin-visualizer on your Day 14 project — identify top 3 largest modules',
+      'Add route-based code splitting to all routes — measure network tab before/after',
+      'Replace a heavy date library with date-fns — verify bundle reduction',
+      'Implement hover-to-preload on navigation links',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'web.dev — Code Splitting', url:'https://web.dev/code-splitting-libraries'},
+    {type:'repo',  name:'rollup-plugin-visualizer', url:'https://github.com/btd/rollup-plugin-visualizer'},
+    {type:'video', name:'Fireship — Bundle Size Matters', url:'https://www.youtube.com/@Fireship'},
+  ]
+},
+{
+  day:19, week:3, emoji:'🔬', color:'#388bfd',
+  theme:'Performance Optimization',
+  title:'React Profiler, Virtualization & Core Web Vitals',
+  focus:'LCP and INP are ranking factors and affect user retention — product companies measure these obsessively.',
+  learn:[
+    { group:'React DevTools Profiler', items:[
+      'Record a profile: click Record, interact, stop',
+      'Flamegraph: width = render time, grey = no re-render',
+      'Ranked chart: most expensive components per commit',
+      'Why did this render? Shows which prop/state/hook changed',
+      'Identifying cascading re-renders: one state change causing 50 re-renders',
+      'Profiler API: <Profiler id onRender> for production metrics',
+    ]},
+    { group:'List Virtualization', items:[
+      ['DOM nodes are expensive: 10,000 rows crashes browsers without virtualization', 'Each DOM node has layout, style, and event listener overhead. 10,000 rows = 10,000 nodes constantly being computed. Virtualization renders only the ~20 rows visible in the viewport. Scroll = swap out which rows are rendered. The DOM stays at ~20 nodes regardless of list size.', '', ''],
+      ['TanStack Virtual (v3): headless, framework-agnostic, more flexible than react-window', 'TanStack Virtual gives you the measurements and positioning math but you control the DOM. This means you can virtualize any layout — grids, masonry, infinite nested lists. react-window provides pre-built components but is harder to customize for unusual layouts.', 'https://tanstack.com/virtual/latest', 'TanStack Virtual'],
+      'react-window: FixedSizeList, VariableSizeList, FixedSizeGrid',
+      'Overscan: render N extra items outside viewport to prevent blank flashes',
+      'Measuring item size for VariableSizeList: ResizeObserver pattern',
+      'Virtualization + infinite scroll: combine useInfiniteQuery with virtual rows',
+    ]},
+    { group:'Core Web Vitals', items:[
+      ['LCP (Largest Contentful Paint): time to largest above-fold element — target < 2.5s', 'LCP measures when the largest visible content (hero image, heading) finishes loading. Common culprits: unoptimized images (use WebP + preload), render-blocking JS (defer), and slow API calls for above-fold content (use SSR or pre-fetch).', 'https://web.dev/vitals', 'web.dev — Core Web Vitals'],
+      ['INP (Interaction to Next Paint, replaces FID): response latency — target < 200ms', 'INP measures the time from user interaction (click, key, tap) to the next frame paint. Heavy synchronous JS in event handlers blocks this. Fix: break work with useTransition, avoid long tasks in click handlers, use setTimeout/scheduler.yield for non-urgent work.', '', ''],
+      'CLS (Cumulative Layout Shift): layout stability — target < 0.1',
+      'Measuring: Lighthouse, Chrome UX Report, web-vitals library',
+      'React-specific INP fixes: useTransition for heavy state updates',
+      'Lighthouse CI: automate performance budget in PR pipelines',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Render 10,000 items without virtualization — see the FPS drop in Performance tab',
+      'Add react-window FixedSizeList — measure the improvement',
+      'Run Lighthouse on your Day 14 app — achieve 90+ Performance score',
+      'Add web-vitals reporting: log LCP/INP/CLS to console in production mode',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'React Profiler Docs', url:'https://react.dev/reference/react/Profiler'},
+    {type:'repo',  name:'TanStack Virtual', url:'https://tanstack.com/virtual/latest'},
+    {type:'doc',   name:'web.dev — Core Web Vitals', url:'https://web.dev/vitals'},
+  ]
+},
+{
+  day:20, week:3, emoji:'🔷', color:'#388bfd',
+  theme:'TypeScript with React',
+  title:'TypeScript Fundamentals for React Developers',
+  focus:'TypeScript eliminates entire classes of bugs. At product companies, new projects are TypeScript by default.',
+  learn:[
+    { group:'TypeScript Essentials', items:[
+      ['Type inference: TS infers most types — annotate only boundaries', 'TypeScript infers the type of `const x = 5` as `number` automatically. You only need explicit annotations at public boundaries: function parameters, return types of exported functions, and variables initialized to null/undefined. Over-annotating adds noise without safety.', '', ''],
+      'Interfaces vs type aliases: interfaces for object shapes (extendable), types for unions/computed',
+      ['Union types: type Status = "idle" | "loading" | "success" | "error"', 'Union types model state as a closed set of possibilities. TypeScript narrows the type inside `if(status === "success")` — the error case is impossible there. This eliminates entire classes of runtime errors by making impossible states unrepresentable at compile time.', '', ''],
+      'Intersection types: TypeA & TypeB',
+      'Generics: functions + interfaces parameterized by type T',
+      'Utility types: Partial<T>, Required<T>, Pick<T,K>, Omit<T,K>, Record<K,V>, ReturnType<F>',
+      'Template literal types: type Route = `/users/${string}`',
+    ]},
+    { group:'Typing React Components', items:[
+      ['Event types: React.ChangeEvent<HTMLInputElement>, React.MouseEvent<HTMLButtonElement>', 'Don\'t use `any` or `Event` for React events. Each event has a specific type: `React.ChangeEvent<HTMLInputElement>` for `onChange`, `React.FormEvent<HTMLFormElement>` for `onSubmit`, `React.KeyboardEvent<HTMLInputElement>` for `onKeyDown`. The generic type parameter is the element that fired the event.', 'https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example', 'React TS Cheatsheet — Events'],
+      ['useRef typing: useRef<HTMLInputElement>(null) — DOM ref; useRef<number>(0) — mutable', 'For DOM refs: `useRef<HTMLInputElement>(null)` — `ref.current` can be null (before mount). For mutable values: `useRef<number>(0)` — `ref.current` is always a number (initial value provided). The two use-cases have different initial values by convention.', '', ''],
+      'FC<Props> vs explicit return type React.ReactElement',
+      'Children: React.ReactNode (broadest), React.ReactElement (strict)',
+      'PropsWithChildren<P>: adds children to any props type',
+      'HTML element props: React.HTMLAttributes<HTMLDivElement>, React.ButtonHTMLAttributes',
+      'Typing useState: useState<User | null>(null)',
+    ]},
+    { group:'tsconfig for React', items:[
+      'strict: true — enable all strict checks (non-negotiable for new projects)',
+      'jsx: "react-jsx" for new JSX transform (no React import needed)',
+      'paths: configure import aliases (@/components)',
+      'noUncheckedIndexedAccess: catch array index bugs (advanced)',
+      'skipLibCheck: true — skip checking .d.ts in node_modules (performance)',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Migrate the Day 7 multi-step form to TypeScript — no `any` allowed',
+      'Create strongly-typed form state using a discriminated union for each step',
+      'Write a generic useFetch<T>(url) hook — return type inferred from T',
+      'Fix all TypeScript errors using utility types, not `as unknown as T` casts',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'TypeScript Official Docs', url:'https://www.typescriptlang.org/docs'},
+    {type:'repo',  name:'React TypeScript Cheatsheet', url:'https://react-typescript-cheatsheet.netlify.app'},
+    {type:'course',name:'Total TypeScript (Matt Pocock)', url:'https://www.totaltypescript.com'},
+  ]
+},
+{
+  day:21, week:3, emoji:'🔷', color:'#388bfd',
+  theme:'TypeScript with React',
+  title:'Advanced TypeScript: Generics, Discriminated Unions & Typing Patterns',
+  focus:'Generic components and discriminated unions are interview-tested patterns at senior level.',
+  learn:[
+    { group:'Generic Components', items:[
+      ['Generic component: <T> in function signature <Select<T extends object>>', 'A generic component accepts a type parameter and uses it for props: `function Select<T>({options, getLabel}: {options: T[], getLabel: (o:T)=>string})`. The parent can then use `<Select<User> options={users} getLabel={u=>u.name}/>` and get full type safety.', '', ''],
+      ['Generic lists: <List<T> items={T[]} renderItem={(item: T) => ReactNode}>', 'Generic renderItem pattern separates the "what items" concern from the "how to render" concern. The List component handles virtualization/keys/loading, while the parent provides the render logic. This is a fundamental pattern in headless component libraries.', '', ''],
+      'Passing generic type from parent: <Select<User> ...>',
+      'Generic form fields: type-safe field name from keyof T',
+      'Constraining generics: T extends {id: string} for keyed collections',
+    ]},
+    { group:'Discriminated Unions for State', items:[
+      ['Model async state as discriminated union: {status:"loading"} | {status:"success",data:T} | {status:"error",error:Error}', 'With a discriminated union, TypeScript knows that when `state.status === "success"`, `state.data` exists. When `status === "error"`, `state.error` exists. No need for `data?.` checks everywhere. The compiler prevents accessing `.data` in the error case.', '', ''],
+      ['Exhaustive checks with never: TypeScript enforces all cases handled', 'In a switch statement, add a default case: `default: const _exhaustive: never = state; throw new Error("Unhandled state")`. If you add a new union member and forget to handle it in the switch, TypeScript raises a compile error — it can\'t assign the new type to `never`.', '', ''],
+      'Discriminated unions for component variants: <Button variant="primary"> vs <Button variant="icon" icon={...}>',
+      'Narrowing with type guards: isUser(), isApiError()',
+      'Const assertions: as const to infer literal types from objects',
+    ]},
+    { group:'Advanced Patterns', items:[
+      'Polymorphic "as" prop: <Box as="section"> — typed with ElementType + ComponentPropsWithRef',
+      'Conditional types: T extends string ? "text" : "number"',
+      'Mapped types: { [K in keyof T]: K extends "id" ? string : T[K] }',
+      'Template literal types for type-safe CSS props',
+      'TypeScript with Redux Toolkit: RootState, AppDispatch, typed useSelector/useDispatch',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a generic <DataTable<T>> component: columns as ColumnDef<T>[], data as T[]',
+      'Type useReducer with discriminated union actions: no string action types',
+      'Implement polymorphic Box component: as="div"|"section"|"article" with correct HTML attrs',
+      'Add RootState + AppDispatch types to Day 12 Redux app with typed hooks',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'TS Handbook — Generics', url:'https://www.typescriptlang.org/docs/handbook/2/generics.html'},
+    {type:'video', name:'Jack Herrington — Advanced TypeScript Patterns', url:'https://www.youtube.com/@jherr'},
+    {type:'course',name:'Total TypeScript — Type Transformations', url:'https://www.totaltypescript.com'},
+  ]
+},
+// ─── WEEK 4 ───────────────────────────────────────────────────────────────
+{
+  day:22, week:4, emoji:'🧪', color:'#3fb950',
+  theme:'Testing',
+  title:'Jest Setup & Unit Testing Strategy',
+  focus:'A test that catches nothing is worse than no test — it creates false confidence. Know what to test.',
+  learn:[
+    { group:'Jest Configuration', items:[
+      'jest.config.ts for Vite: use vitest (Vite-native) or jest + @swc/jest transformer',
+      'jsdom environment: simulates browser DOM in Node.js',
+      'Module name mapping: map @/ aliases, mock static files (images/SVG)',
+      'Setup files: MSW server start, global mocks, custom matchers',
+      'Coverage: --coverage flag, lcov + text reporters, meaningful thresholds',
+      'Watch mode: --watch for TDD workflow',
+    ]},
+    { group:'Testing Philosophy', items:[
+      ['"Test behavior, not implementation" — Kent C. Dodds axiom', 'Tests should verify what the software does, not how it does it. If you test that `setState` was called with the right argument, your test breaks on refactor even if behavior is correct. Test from the user\'s perspective: render the component, interact with it, assert the visible output.', 'https://kentcdodds.com/blog/testing-implementation-details', 'Kent C. Dodds — Testing Implementation Details'],
+      ['What to unit test: pure utilities, reducers, custom hooks', 'Pure functions (reducers, utils) are perfect for unit tests: deterministic, no side effects, no DOM needed. Test every action in your reducer, every branch in your utility. For custom hooks, use renderHook from @testing-library/react to test hook behavior in isolation.', '', ''],
+      'Test triangle: many unit tests, fewer integration, few E2E',
+      'If refactoring breaks tests without changing behavior → bad test',
+      'What NOT to unit test in isolation: React components (integration test instead)',
+      'Snapshot tests: useful for small utilities, not whole component trees',
+    ]},
+    { group:'jest.mock & Module Mocking', items:[
+      'jest.mock("module") — auto-mocks entire module',
+      'jest.fn() — create mock function, assert calls with .toHaveBeenCalledWith()',
+      'jest.spyOn(object, "method") — spy without replacing implementation',
+      'Mocking timers: jest.useFakeTimers() + jest.advanceTimersByTime()',
+      'Mocking environment variables: process.env in test setup',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Write unit tests for: useDebounce, useLocalStorage, mergeState utility from Week 1',
+      'Test the shopping cart useReducer: every action type, edge cases',
+      'Mock an API module and test that it is called with correct args',
+      'Achieve 100% branch coverage on a utility function — see what 100% misses',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Vitest Docs (Vite projects)', url:'https://vitest.dev'},
+    {type:'doc',   name:'Jest Docs', url:'https://jestjs.io/docs/getting-started'},
+    {type:'video', name:'Theo — Testing in React (opinion)', url:'https://www.youtube.com/@t3dotgg'},
+  ]
+},
+{
+  day:23, week:4, emoji:'🎭', color:'#3fb950',
+  theme:'Testing',
+  title:'React Testing Library & Mock Service Worker',
+  focus:'RTL forces you to test as a user — if a screen reader can find it, your test can find it.',
+  learn:[
+    { group:'RTL Core API', items:[
+      ['Query priority: getByRole > getByLabelText > getByPlaceholderText > getByText > getByTestId', 'The priority reflects how real users and assistive technologies interact with the UI. getByRole queries by ARIA role (most accessible). getByTestId is last resort because data-testid is invisible to users and screen readers.', 'https://testing-library.com/docs/queries/about#priority', 'RTL — Query Priority'],
+      ['getBy vs queryBy vs findBy: throws/returns null/async respectively', 'getBy throws if element not found — use when element must be present. queryBy returns null if not found — use when asserting absence. findBy is async (returns Promise) — use for elements that appear after async operations.', '', ''],
+      'Render: render(<Component />) + cleanup is automatic (afterEach)',
+      'Why getByTestId is last resort: data-testid is not in the real DOM',
+      'within(element): scope queries to a subtree',
+      'screen object: queries without destructuring from render',
+    ]},
+    { group:'User Interaction', items:[
+      ['userEvent vs fireEvent: userEvent simulates real browser events (keydown, keyup, input)', 'fireEvent dispatches a single DOM event. userEvent simulates the full sequence a real browser would produce (e.g., typing fires focus, keydown, keypress, input, keyup). userEvent is more realistic — prefer it unless you need precise control over a single event.', '', ''],
+      'userEvent.type, userEvent.click, userEvent.selectOptions',
+      'waitFor: retry assertion until it passes or times out',
+      'findBy: waitFor + getBy in one call',
+      'act(): wraps state updates in tests — RTL does this automatically in most cases',
+    ]},
+    { group:'Mock Service Worker (MSW)', items:[
+      ['MSW intercepts at network level (Service Worker in browser, Node http in tests)', 'Unlike mocking fetch directly, MSW operates at the network layer. Your actual fetch/axios code runs unchanged. Tests exercise the real data-fetching code path, not a stub. Errors in your fetch logic are caught, not bypassed.', 'https://mswjs.io/docs', 'MSW Docs'],
+      ['server.use() for per-test overrides (error scenarios)', 'Define global happy-path handlers in setupServer. For error tests, call server.use(http.get(..., () => HttpResponse.error())) inside the test. MSW automatically restores the global handler after the test via server.resetHandlers() in afterEach.', '', ''],
+      'http.get, http.post handlers: define per test suite or globally',
+      'Testing loading state: check loading spinner before MSW responds',
+      'Testing error state: override handler to return 500',
+      'Testing form submission with useMutation + MSW',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Test the Day 14 GitHub search: search → loading → results (MSW intercepts GitHub API)',
+      'Test form validation: submit empty form → error messages appear',
+      'Test protected route: when unauthenticated, redirects to /login',
+      'Test an optimistic update: UI changes immediately, verify rollback on MSW 500',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'React Testing Library Docs', url:'https://testing-library.com/docs/react-testing-library/intro'},
+    {type:'doc',   name:'Mock Service Worker Docs', url:'https://mswjs.io/docs'},
+    {type:'book',  name:'Testing JavaScript — Kent C. Dodds', url:'https://testingjavascript.com'},
+  ]
+},
+{
+  day:24, week:4, emoji:'🎯', color:'#3fb950',
+  theme:'Testing',
+  title:'Integration Tests, Cypress & E2E Strategy',
+  focus:'E2E tests catch what unit tests cannot: the integration between auth, routing, API, and UI state.',
+  learn:[
+    { group:'Integration Testing Strategy', items:[
+      ['Integration test: render a feature (not an isolated component) with real providers', 'An integration test renders a complete feature with all its dependencies: render(<QueryClientProvider><MemoryRouter><UserProfile/></MemoryRouter></QueryClientProvider>). Tests the full user interaction path with more confidence, still faster than E2E.', '', ''],
+      ['Testing with React Query: reset queryClient between tests to prevent cache pollution', 'Create a fresh QueryClient per test: const queryClient = new QueryClient({defaultOptions:{queries:{retry:false}}}). The retry:false option makes failed queries fail immediately instead of retrying 3 times — essential for testing error states fast.', '', ''],
+      'Wrap component in QueryClientProvider + MemoryRouter + ThemeProvider',
+      'Test complete user flows: login → dashboard → create item → verify list updates',
+      'MSW in integration tests: real network simulation without hitting production API',
+      'Testing with React Router: MemoryRouter with initialEntries for deep links',
+    ]},
+    { group:'Cypress Fundamentals', items:[
+      ['cy.intercept: intercept and stub API calls (no real network)', 'cy.intercept(/api/users, { fixture: users.json }).as(getUsers) stubs the API response. cy.wait(@getUsers) pauses the test until the request fires. This makes tests deterministic — no real network calls.', 'https://docs.cypress.io/api/commands/intercept', 'Cypress — intercept'],
+      ['Testing auth flows: cy.session for caching auth state across tests', 'cy.session caches cookies/localStorage from a login sequence and restores it at the start of each test. Without session caching, every test must go through the login UI. cy.session makes the login happen once per spec file, speeding up your suite dramatically.', '', ''],
+      'cy.visit, cy.get, cy.contains, cy.type, cy.click',
+      'Cypress fixtures: JSON files for mock API responses',
+      'cy.wait(@alias): wait for intercepted request before asserting',
+      'Cypress commands: create reusable cy.login() custom command',
+    ]},
+    { group:'E2E Strategy at Product Companies', items:[
+      'What to E2E test: critical user paths (sign up, checkout, core feature)',
+      'What not to E2E: every edge case (too slow, too brittle)',
+      'Test IDs vs accessible queries: Cypress Testing Library plugin',
+      'CI integration: run E2E on pull request, not on every commit',
+      'Parallel test execution: Cypress Cloud or sharding',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Write Cypress E2E for: open app → search GitHub user → see repos',
+      'Test an auth flow: visit protected route → redirect to login → login → redirect back',
+      'Use cy.intercept to test error state: stub API with 429, verify error toast renders',
+      'Write a cy.login() custom command and use it in 3 tests',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Cypress Documentation', url:'https://docs.cypress.io'},
+    {type:'doc',   name:'Playwright Docs (alternative)', url:'https://playwright.dev'},
+    {type:'video', name:'Web Dev Simplified — Cypress Testing', url:'https://www.youtube.com/@WebDevSimplified'},
+  ]
+},
+{
+  day:25, week:4, emoji:'🔺', color:'#3fb950',
+  theme:'Next.js',
+  title:'Next.js Fundamentals: Pages Router & Data Fetching',
+  focus:'Most product company React projects are Next.js. Know both Pages and App Router — migrations are common.',
+  learn:[
+    { group:'Next.js Setup & Routing', items:[
+      'Vite vs Next.js: when to choose each (SSR need, SEO, API routes)',
+      'pages/ directory: file = route (pages/users/[id].tsx)',
+      'next/link: client-side navigation, prefetching on hover',
+      'next/image: automatic WebP, lazy loading, prevents CLS with width/height',
+      'next/font: optimized font loading, self-hosted from Google Fonts',
+      '_app.tsx: global providers, layouts, global CSS',
+      '_document.tsx: customize <html>, <head> for the full HTML document',
+    ]},
+    { group:'Data Fetching (Pages Router)', items:[
+      ['getStaticProps: runs at build time, returns props — for static content', 'getStaticProps runs once during next build. The result is baked into the HTML. Perfect for blog posts, marketing pages, docs — content that rarely changes. Combine with ISR (revalidate: 60) to rebuild in the background when data changes without a full redeploy.', 'https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props', 'Next.js — getStaticProps'],
+      ['getServerSideProps: runs per request, returns props — for personalized/dynamic', 'getServerSideProps runs on every request on the server. Use only when you need request-time data: auth cookies, real-time prices, user-specific content. It adds TTFB latency (server must complete before HTML is sent). Prefer getStaticProps + ISR when possible.', '', ''],
+      'getStaticPaths: for dynamic static routes — which paths to pre-build',
+      ['ISR: revalidate option in getStaticProps — rebuild stale pages in background', 'Incremental Static Regeneration: add revalidate:60 to getStaticProps and Next.js rebuilds that page in the background when requested after 60 seconds. Users always get served a cached page (fast), but the cache refreshes automatically. Best of both SSG and SSR.', '', ''],
+      'SWR vs TanStack Query in Next.js: for client-side data after initial HTML',
+      'API Routes: pages/api/*.ts — serverless functions, same origin = no CORS',
+    ]},
+    { group:'Production Configuration', items:[
+      'Environment variables: NEXT_PUBLIC_ prefix for client-side exposure',
+      'next.config.js: headers, rewrites, redirects, webpack config',
+      'Middleware (Edge): auth checks, redirects before page renders',
+      'Vercel deployment: zero-config, preview deploys per PR',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Migrate the Day 14 GitHub app to Next.js Pages Router with getStaticProps for featured users',
+      'Add API route at /api/search that proxies GitHub API (hides token from client)',
+      'Implement ISR: user profile page with revalidate: 60',
+      'Add next/image for avatars — verify CLS score improvement in Lighthouse',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Next.js Pages Router Docs', url:'https://nextjs.org/docs/pages'},
+    {type:'video', name:'Lee Robinson — Next.js Full Tutorial', url:'https://www.youtube.com/@leerob'},
+    {type:'doc',   name:'Vercel Deployment Guide', url:'https://vercel.com/docs'},
+  ]
+},
+{
+  day:26, week:4, emoji:'🔺', color:'#3fb950',
+  theme:'Next.js',
+  title:'App Router, React Server Components & Server Actions',
+  focus:'RSC is the biggest paradigm shift in React since hooks. This is what new Next.js projects are built on.',
+  learn:[
+    { group:'App Router Architecture', items:[
+      'app/ directory: every folder with page.tsx is a route segment',
+      'layout.tsx: persistent UI (nav, sidebar) — does NOT remount on navigation',
+      'loading.tsx: automatic Suspense boundary for the route segment',
+      'error.tsx: error boundary per route — isolates errors to segment',
+      'not-found.tsx: 404 boundary per segment',
+      'Route groups (folder): organize without affecting URL',
+      'Parallel routes @slot: render multiple pages in same layout simultaneously',
+    ]},
+    { group:'React Server Components (RSC)', items:[
+      ['Server Component: renders on server, sends HTML — zero JS sent to client', 'Server Components run exclusively on the server and send HTML to the client. No JS bundle is sent for them. They can access databases and secrets directly. They cannot have state or event handlers — for interactivity, pass data down to a Client Component child.', 'https://nextjs.org/docs/app/building-your-application/rendering/server-components', 'Next.js — Server Components'],
+      ['Client Component: use client directive — interactivity, hooks, browser APIs', '"use client" marks a module boundary — everything in that file runs on the client too. It does NOT mean SSR is disabled: the component still server-renders for initial HTML, then hydrates. Without "use client", hooks like useState/useEffect are unavailable.', '', ''],
+      'Cannot use hooks in Server Components — they have no state',
+      ['Async Server Components: await fetch() directly in the component body', 'Server Components can be async: async function Page(){ const data = await db.query(); return <div>{data.title}</div>; }. The await happens on the server during rendering. No useEffect, no loading state — the component renders with the data ready.', '', ''],
+      'Passing server data to client: Server Component renders Client Component with props',
+      'Server Component composition: interleave server/client components freely',
+    ]},
+    { group:'Server Actions & Caching', items:[
+      '"use server" directive: marks async functions as Server Actions',
+      'Server Actions in forms: <form action={serverAction}> — no JS required',
+      'Mutations with Server Actions: revalidatePath, revalidateTag after mutation',
+      'Next.js fetch caching: default cache: "force-cache", opt-out with cache: "no-store"',
+      'unstable_cache: cache any server-side data (not just fetch)',
+      'fetch with next.revalidate: ISR-style caching for any fetch call',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build a blog: Server Component fetches posts list, Client Component for like button',
+      'Add Server Action for newsletter signup — no API route needed',
+      'Implement streaming: render page shell immediately, stream heavy user data',
+      'Compare: same page in Pages Router vs App Router — measure TTFB difference',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'Next.js App Router Docs', url:'https://nextjs.org/docs/app'},
+    {type:'video', name:'Theo — RSC Explained', url:'https://www.youtube.com/@t3dotgg'},
+    {type:'video', name:'Jack Herrington — RSC Deep Dive', url:'https://www.youtube.com/@jherr'},
+  ]
+},
+{
+  day:27, week:4, emoji:'🏗️', color:'#3fb950',
+  theme:'Advanced Patterns',
+  title:'Compound Components, HOCs & Error Boundaries',
+  focus:'These patterns are standard interview topics and appear in every mature component library.',
+  learn:[
+    { group:'Compound Components', items:[
+      ['Problem: deeply nested components with many props (API surface explosion)', 'When a component needs to pass config to deep children, you end up with a "prop drilling" or "god prop" problem: <Modal title closable onClose showFooter footerText>. Compound components solve this by letting callers compose sub-components explicitly instead.', '', ''],
+      ['Solution: multiple sub-components that share implicit state via Context', 'The parent creates a Context. Each sub-component consumes it. The caller composes them: <Tabs><Tabs.List><Tabs.Tab>One</Tabs.Tab></Tabs.List><Tabs.Panel>Content</Tabs.Panel></Tabs>. The caller decides the structure; the parent provides the shared state.', 'https://www.patterns.dev/react/compound-pattern', 'patterns.dev — Compound Pattern'],
+      'Implementation: Parent creates context, sub-components consume it',
+      'Flexible compound pattern: Parent.Title, Parent.Body, Parent.Footer',
+      'Validation: warn if sub-component used outside parent (null context check)',
+      'Real-world examples: <Tabs>, <Accordion>, <Select>, <Menu>',
+    ]},
+    { group:'HOCs & Render Props (Legacy + Modern)', items:[
+      'HOC: function that takes component, returns enhanced component',
+      'withAuth(Component): wraps with auth check + redirect',
+      'withLogger(Component): wraps with render timing',
+      'HOC limitations: props namespace collision, DevTools wrapping hell',
+      'Modern alternative: custom hooks replace 95% of HOC use-cases',
+      'Render prop: <DataFetcher render={(data) => <UI data={data}/>}> — replaced by hooks',
+      'When HOCs still make sense: class components, cross-cutting concerns in routing',
+    ]},
+    { group:'Error Boundaries', items:[
+      ['Only class components can be error boundaries (as of React 18)', 'Error boundaries catch render-time errors in their subtree. They cannot be function components because they need getDerivedStateFromError/componentDidCatch lifecycle methods. Use the react-error-boundary library for a hook-based API: useErrorBoundary(), resetErrorBoundary.', 'https://github.com/bvaughn/react-error-boundary', 'react-error-boundary'],
+      ['Granular boundaries: wrap each feature, not just the entire app', 'A top-level error boundary prevents a white screen but shows nothing useful. Granular boundaries let one feature crash while the rest of the app works. Wrap the sidebar, the main content area, and individual widgets independently.', '', ''],
+      'getDerivedStateFromError: render fallback UI',
+      'componentDidCatch: log errors to Sentry/monitoring',
+      'Reset on navigation: key={location.pathname} resets boundary on route change',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Build <Tabs> using compound components: Tabs, Tabs.List, Tabs.Tab, Tabs.Panel',
+      'Build <Accordion> with compound pattern supporting single and multi-open modes',
+      'Add react-error-boundary to the Day 14 app — test by killing MSW server',
+      'Write withPermission(requiredRole)(Component) HOC for role-based UI',
+    ]},
+  ],
+  resources:[
+    {type:'book',  name:'patterns.dev — React Patterns', url:'https://www.patterns.dev/react'},
+    {type:'doc',   name:'react-error-boundary Library', url:'https://github.com/bvaughn/react-error-boundary'},
+    {type:'course',name:'Epic React — Advanced React Patterns', url:'https://epicreact.dev'},
+  ]
+},
+{
+  day:28, week:4, emoji:'♿', color:'#3fb950',
+  theme:'Accessibility & Code Quality',
+  title:'Accessibility (a11y), ESLint & Code Standards',
+  focus:'WCAG compliance is a legal requirement in many markets. Product companies get audited. Own this skill.',
+  learn:[
+    { group:'Accessibility Fundamentals', items:[
+      ['Semantic HTML: use <button> not <div onClick>, <nav> not <div class="nav">', 'Semantic HTML is the foundation of accessibility. A <button> is focusable, activatable with Enter/Space, has role="button" for screen readers — all for free. A <div onClick> has none of that. Using the right HTML element gives you keyboard support and ARIA roles without any extra code.', 'https://webaim.org/intro', 'WebAIM — Accessibility Intro'],
+      ['Focus management: after modal open, focus first interactive element inside', 'When a modal opens, keyboard users expect focus to move inside it. When it closes, focus should return to the trigger element. Without this, keyboard and screen reader users are lost. Use ref.current.focus() in useEffect after the modal renders, and save/restore the trigger ref.', '', ''],
+      'ARIA attributes: aria-label, aria-describedby, aria-expanded, aria-live',
+      'Keyboard navigation: every interactive element must be reachable with Tab',
+      ['Focus trap in dialogs: Tab cycles within, ESC closes', 'A focus trap prevents Tab from leaving a modal while it is open. Without it, keyboard users can Tab into the background page behind the modal overlay. Implement with: intercept keydown Tab, find all focusable elements in the modal, wrap from last to first.', '', ''],
+      'Landmark roles: banner, main, navigation, complementary, contentinfo',
+      'Screen reader testing: NVDA (Windows), VoiceOver (Mac/iOS)',
+      'Color contrast: 4.5:1 for normal text, 3:1 for large text (WCAG AA)',
+    ]},
+    { group:'a11y in React', items:[
+      'jsxA11y ESLint plugin: catches a11y violations at compile time',
+      'axe-core: automated a11y audit programmatically',
+      'jest-axe: run axe in unit tests — catch violations in CI',
+      'Radix UI: all primitives are ARIA-compliant by default',
+      'Focus visible: never remove outline without a custom visible alternative',
+      'Skip to main content link: first focusable element on every page',
+    ]},
+    { group:'Code Quality Standards', items:[
+      'ESLint: react, react-hooks, jsx-a11y, @typescript-eslint plugins',
+      'Prettier: consistent formatting — zero debates about style',
+      'Husky + lint-staged: run ESLint + Prettier on staged files before commit',
+      'Import sorting: @trivago/prettier-plugin-sort-imports',
+      'PR review checklist: a11y, types, tests, perf, security',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Audit Day 7 form with axe DevTools browser extension — fix every violation',
+      'Add jest-axe to your test suite — enforce zero violations in CI',
+      'Implement focus trap in the Day 6 portal modal — test with Tab key only',
+      'Setup ESLint + jsx-a11y + Husky on the project — commit should fail on lint errors',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'WebAIM — Accessibility Guide', url:'https://webaim.org/intro'},
+    {type:'doc',   name:'Axe DevTools', url:'https://www.deque.com/axe/devtools'},
+    {type:'repo',  name:'jest-axe', url:'https://github.com/nickcolley/jest-axe'},
+  ]
+},
+{
+  day:29, week:4, emoji:'🚀', color:'#3fb950',
+  theme:'Production & DevOps',
+  title:'CI/CD, Monitoring, Docker & Production Deployment',
+  focus:'At product companies, shipping is a daily activity. A broken deploy pipeline blocks the entire team.',
+  learn:[
+    { group:'GitHub Actions for React', items:[
+      ['Workflow file: .github/workflows/ci.yml', 'A CI workflow runs automatically on every push/PR. A minimal React CI runs: install (npm ci) → lint (eslint) → test (vitest run) → build (vite build). If any step fails, the PR gets a red check and merge is blocked. This prevents breaking changes from reaching main.', 'https://docs.github.com/en/actions', 'GitHub Actions Docs'],
+      ['Jobs: lint → test → build → deploy', 'Jobs can run in parallel or sequentially with needs:. Run lint and test in parallel (both need code, neither needs the other). Run build after tests pass. Run deploy after build succeeds. This gives fast feedback — lint failures do not wait for tests.', '', ''],
+      'Triggers: push to main, pull_request to main',
+      'Caching node_modules: actions/cache with package-lock.json hash',
+      'Matrix builds: test on Node 18 + 20 in parallel',
+      'Preview deploys: Vercel GitHub integration auto-deploys PRs',
+    ]},
+    { group:'Monitoring & Error Tracking', items:[
+      ['Sentry setup: @sentry/react + Sentry.init in main.tsx', 'Add Sentry in two lines: Sentry.init({dsn, tracesSampleRate:1.0}) in main.tsx and wrap your router with Sentry.withProfiler. Production errors appear in the dashboard with stack traces, user info, and breadcrumbs.', 'https://docs.sentry.io/platforms/javascript/guides/react', 'Sentry React SDK'],
+      ['Source maps: upload to Sentry in CI', 'Production JS is minified. Source maps map minified code back to your original TypeScript so Sentry shows readable stack traces. Upload in your CI build step. Never expose source maps publicly.', '', ''],
+      'Error boundary + Sentry: captureException in componentDidCatch',
+      'Performance monitoring: Sentry tracing + Web Vitals',
+      'Session replay: Sentry Replay for debugging user-reported issues',
+      'Feature flags: LaunchDarkly / GrowthBook — release without deploy',
+    ]},
+    { group:'Docker & Deployment', items:[
+      'Multi-stage Dockerfile: builder stage (node) + server stage (nginx)',
+      'nginx config for SPA: try_files $uri /index.html for client-side routing',
+      'Environment variables at runtime: inject via window.__ENV__ or build args',
+      'Vercel: zero-config, edge network, preview per PR',
+      'Netlify: similar to Vercel, good for static + serverless',
+      'Container registry: Docker Hub / AWS ECR for self-hosted deployments',
+    ]},
+  ],
+  practice:[
+    { group:'Build', items:[
+      'Create GitHub Actions CI: lint → test → build on every PR',
+      'Add Sentry to Day 14 app: capture errors + performance tracing',
+      'Write a multi-stage Dockerfile for the app — serve with nginx',
+      'Trigger a Sentry alert: throw an unhandled error in prod mode, see it in dashboard',
+    ]},
+  ],
+  resources:[
+    {type:'doc',   name:'GitHub Actions Docs', url:'https://docs.github.com/en/actions'},
+    {type:'doc',   name:'Sentry React SDK', url:'https://docs.sentry.io/platforms/javascript/guides/react'},
+    {type:'doc',   name:'Docker Multi-stage Builds', url:'https://docs.docker.com/develop/develop-images/multistage-build'},
+  ]
+},
+{
+  day:30, week:4, emoji:'🏆', color:'#3fb950',
+  theme:'Final Review',
+  title:'System Design, Architecture Review & What\'s Next',
+  focus:'Day 30: solidify your mental model, review your builds, and map the senior engineering path forward.',
+  milestone:true,
+  milestoneText:'30 days complete! You now have a senior-level React foundation. The rest is reps and production experience.',
+  learn:[
+    { group:'React System Design Framework', items:[
+      ['Component hierarchy design: identify boundaries, state ownership, data flow', 'Start with a wireframe and ask: what are the natural UI boundaries? What state does each component need? Who owns shared state? Draw arrows for data flow. A good hierarchy makes sense before writing a single line of code.', '', ''],
+      ['State location decision: URL > server cache > React state > Zustand', 'A hierarchy for where state belongs: URL params (shareable, survives refresh), TanStack Query cache (server state), local component useState (ephemeral UI state), Zustand (cross-component client state). Reach for the highest-level option that works.', '', ''],
+      'Rendering strategy: CSR vs SSR vs SSG vs ISR — decision matrix',
+      'Performance budget: define LCP/INP/CLS targets before building',
+      'Data fetching strategy: waterfall vs parallel, streaming for slow APIs',
+      'Error strategy: which boundaries catch which errors, fallbacks',
+    ]},
+    { group:'Architecture Decisions Checklist', items:[
+      'New project: Vite+React (SPA) vs Next.js (SSR/SSG) — justify with requirements',
+      'State: TanStack Query (server) + Zustand (client) vs Redux Toolkit (enterprise)',
+      'Styling: Tailwind + shadcn/ui vs MUI vs CSS Modules — team size and design system',
+      'Testing: Vitest + RTL + MSW + Playwright (recommended 2024 stack)',
+      'TypeScript: strict mode, no `any`, discriminated unions for async state',
+      'Monitoring: Sentry + Lighthouse CI in every production project',
+    ]},
+    { group:'What to Learn Next (Beyond 30 Days)', items:[
+      'React Native: mobile with shared component logic',
+      'Remix: full-stack React with web standards-first approach',
+      'tRPC: end-to-end type-safe APIs (pairs with Next.js)',
+      'Turborepo / Nx: monorepo for multi-app product suites',
+      'WebSockets / Realtime: socket.io, Pusher, Supabase Realtime in React',
+      'Micro-frontends: Module Federation for large org multi-team apps',
+      'React Native + Expo: if product has a mobile requirement',
+    ]},
+  ],
+  practice:[
+    { group:'Final Checklist — Review All Projects', items:[
+      'Day 7 project: TypeScript, a11y audit, unit + integration tests added',
+      'Day 14 project: React Query, Zustand, React.memo, error boundary',
+      'Day 21 project: fully typed with generics + discriminated unions',
+      'Day 25/26 project: deployed on Vercel, Sentry connected, Lighthouse 90+',
+      'GitHub Actions CI pipeline running on all repos',
+      'Can you explain every architectural decision you made?',
+    ]},
+  ],
+  resources:[
+    {type:'repo',  name:'Bulletproof React — Production Codebase Guide', url:'https://github.com/alan2207/bulletproof-react'},
+    {type:'doc',   name:'patterns.dev — Advanced React Patterns', url:'https://www.patterns.dev'},
+    {type:'video', name:'Theo t3.gg — How I Build React Apps in 2024', url:'https://www.youtube.com/@t3dotgg'},
+  ]
+},
+];
+
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ─── STATE ──────────────────────────────────────────────────────────────────
+const STORE = 'rm30_v1';
+function loadState(){ try{ return JSON.parse(localStorage.getItem(STORE))||{}; }catch{ return {}; } }
+function saveState(s){ localStorage.setItem(STORE, JSON.stringify(s)); }
+let checked = loadState();
+
+function itemKey(day, sectionType, gIdx, iIdx){ return `d${day}:${sectionType}:${gIdx}:${iIdx}`; }
+
+// ─── PROGRESS ───────────────────────────────────────────────────────────────
+function dayProgress(d){
+  let done=0, total=0;
+  d.learn.forEach((g,gi)=>{ g.items.forEach((_,ii)=>{ total++; if(checked[itemKey(d.day,'l',gi,ii)])done++; }); });
+  if(d.practice) d.practice.forEach((g,gi)=>{ g.items.forEach((_,ii)=>{ total++; if(checked[itemKey(d.day,'p',gi,ii)])done++; }); });
+  return {done,total};
+}
+
+function totalProgress(){
+  let done=0,total=0;
+  DAYS.forEach(d=>{ const r=dayProgress(d); done+=r.done; total+=r.total; });
+  return {done,total};
+}
+
+// ─── RENDER SIDEBAR ─────────────────────────────────────────────────────────
+function renderSidebar(){
+  const el = document.getElementById('sb-weeks');
+  const weekColors = {'1':'var(--w1)','2':'var(--w2)','3':'var(--w3)','4':'var(--w4)'};
+  let html = '';
+  WEEKS.forEach(w=>{
+    html += `<div class="sb-week-header"><span class="sb-week-dot" style="background:${weekColors[w.n]}"></span>Week ${w.n}</div>`;
+    w.days.forEach(dn=>{
+      const d = DAYS[dn-1];
+      const {done,total} = dayProgress(d);
+      const pct = total ? Math.round(done/total*100) : 0;
+      const doneCls = pct===100 ? ' day-done' : '';
+      html += `<a class="sb-day-item${doneCls}" href="#day-${d.day}" id="sbd-${d.day}" onclick="closeSidebar()">
+        <span class="sb-day-num">${d.day}</span>
+        <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.title}</span>
+        <span class="sb-day-pct">${pct}%</span>
+      </a>`;
+    });
+  });
+  el.innerHTML = html;
+}
+
+// ─── RENDER CALENDAR ────────────────────────────────────────────────────────
+function renderCalendar(){
+  const el = document.getElementById('cal-grid');
+  const weekCls = ['','w1','w1','w1','w2','w2','w2','w3','w3','w3','w4'];
+  el.innerHTML = DAYS.map(d=>{
+    const wc = d.week;
+    const {done,total} = dayProgress(d);
+    const pct = total ? done/total : 0;
+    const doneCls = pct===1 ? ' done' : '';
+    return `<a class="cal-day w${wc}${doneCls}" href="#day-${d.day}" title="Day ${d.day}: ${d.title}">${d.day}</a>`;
+  }).join('');
+}
+
+// ─── RENDER DAYS ────────────────────────────────────────────────────────────
+function renderDays(){
+  const el = document.getElementById('day-content');
+  const weekClsMap = {1:'wl-1',2:'wl-2',3:'wl-3',4:'wl-4'};
+  const weekLabels = {1:'Week 1 — JavaScript + React Core',2:'Week 2 — Hooks Deep Dive + State Management',3:'Week 3 — Router · TypeScript · Performance · Styling',4:'Week 4 — Testing · Next.js · Production'};
+  let html = ''; let lastWeek = 0;
+
+  DAYS.forEach(d=>{
+    if(d.week !== lastWeek){
+      lastWeek = d.week;
+      html += `<div class="week-divider"><span class="week-label ${weekClsMap[d.week]}">${weekLabels[d.week]}</span><div class="week-line"></div></div>`;
+    }
+    const {done,total} = dayProgress(d);
+    const pct = total ? Math.round(done/total*100) : 0;
+    const doneCls = pct===100 ? ' day-done' : '';
+    const milBanner = d.milestone ? `<div class="milestone-banner">🎯 <strong>Milestone:</strong> ${d.milestoneText}</div>` : '';
+
+    let learnHtml = d.learn.map((g,gi)=>`
+      <div class="topic-group">
+        <div class="topic-group-title">${g.group}</div>
+        ${g.items.map((item,ii)=>{
+          const isArr = Array.isArray(item);
+          const txt    = isArr ? item[0] : item;
+          const tip    = isArr ? item[1] : '';
+          const tipUrl = isArr ? item[2] : '';
+          const tipName= isArr ? item[3] : '';
+          const hasTip = isArr && tip;
+          const key = itemKey(d.day,'l',gi,ii);
+          const dc = checked[key] ? ' done' : '';
+          return `<div class="sub-block">
+            <div class="sub-item${dc}" id="si-${key}" onclick="toggleItem('${key}',${d.day})">
+              <div class="sub-row">
+                <div class="chk"><svg class="chk-svg" viewBox="0 0 12 12" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"></polyline></svg></div>
+                <span class="sub-text">${esc(txt)}</span>
+                ${hasTip ? `<button class="tip-btn" id="sbtn-${key}" onclick="toggleTip('${key}',event)" title="Learn more"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>` : ''}
+              </div>
+            </div>
+            ${hasTip ? `<div class="sub-tip-wrap" id="stip-${key}"><div class="sub-tip-inner"><p class="tip-text">${esc(tip)}</p>${tipUrl ? `<a href="${tipUrl}" class="tip-link" target="_blank" rel="noopener">${esc(tipName||'Learn more')} →</a>` : ''}</div></div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+
+    let practiceHtml = (d.practice||[]).map((g,gi)=>`
+      <div class="topic-group">
+        <div class="topic-group-title">${g.group}</div>
+        ${g.items.map((item,ii)=>{
+          const key = itemKey(d.day,'p',gi,ii);
+          const dc = checked[key] ? ' done' : '';
+          return `<div class="sub-item practice-item${dc}" id="si-${key}" onclick="toggleItem('${key}',${d.day})">
+            <div class="chk"><svg class="chk-svg" viewBox="0 0 12 12" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"></polyline></svg></div>
+            <span class="sub-text">${esc(item)}</span>
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+
+    let resHtml = (d.resources||[]).map(r=>`
+      <a class="res-link" href="${r.url}" target="_blank" rel="noopener noreferrer">
+        <span class="res-badge rb-${r.type}">${r.type}</span>
+        <span class="res-name">${r.name}</span>
+      </a>`).join('');
+
+    html += `<div class="day-card wk${d.week}${doneCls}" id="day-${d.day}">
+      <div class="day-head" onclick="toggleDay(${d.day})">
+        <div class="day-badge">
+          <div class="day-num-circle" style="background:${d.color}">D${d.day}</div>
+        </div>
+        <div class="day-head-info">
+          <div class="day-theme-tag">${d.theme}</div>
+          <div class="day-title">${d.title}</div>
+          <div class="day-meta-row">
+            <span class="day-focus">${d.focus}</span>
+            <div class="day-bar-wrap">
+              <div class="day-bar"><div class="day-bar-fill" id="db-${d.day}" style="background:${d.color};width:${pct}%"></div></div>
+              <span class="day-pct" id="dp-${d.day}" style="color:${d.color}">${pct}%</span>
+            </div>
+          </div>
+        </div>
+        <div class="toggle-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+      </div>
+      <div class="day-body">
+        ${milBanner}
+        <div class="day-sections">
+          <div class="day-section">
+            <div class="section-heading learn-heading">📖 Learn</div>
+            ${learnHtml}
+          </div>
+          <div class="day-section">
+            <div class="section-heading practice-heading">🔨 Build & Practice</div>
+            ${practiceHtml}
+          </div>
+        </div>
+        <div class="res-section">
+          <div class="res-title">📚 Resources</div>
+          <div class="res-grid">${resHtml}</div>
+        </div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ─── INTERACTIONS ────────────────────────────────────────────────────────────
+function toggleTip(key, e){
+  e.stopPropagation();
+  const wrap = document.getElementById(`stip-${key}`);
+  const btn  = document.getElementById(`sbtn-${key}`);
+  if(wrap) wrap.classList.toggle('open');
+  if(btn)  btn.classList.toggle('open');
+}
+
+function toggleItem(key, dayNum){
+  checked[key] = !checked[key];
+  saveState(checked);
+  const el = document.getElementById(`si-${key}`);
+  if(el) el.classList.toggle('done', !!checked[key]);
+  updateUI();
+  const d = DAYS[dayNum-1];
+  const {done,total} = dayProgress(d);
+  if(done===total && total>0){ showToast(`Day ${dayNum} complete! 🎉`); }
+}
+
+function toggleDay(n){
+  const card = document.getElementById(`day-${n}`);
+  card.classList.toggle('open');
+}
+
+function updateUI(){
+  DAYS.forEach(d=>{
+    const {done,total} = dayProgress(d);
+    const pct = total ? Math.round(done/total*100) : 0;
+    const bar = document.getElementById(`db-${d.day}`);
+    const pctEl = document.getElementById(`dp-${d.day}`);
+    const card = document.getElementById(`day-${d.day}`);
+    const sbEl = document.getElementById(`sbd-${d.day}`);
+    if(bar) bar.style.width = pct+'%';
+    if(pctEl) pctEl.textContent = pct+'%';
+    if(card) card.classList.toggle('day-done', pct===100);
+    if(sbEl){
+      sbEl.className = `sb-day-item${pct===100?' day-done':''}`;
+      sbEl.querySelector('.sb-day-pct').textContent = pct+'%';
+      const numEl = sbEl.querySelector('.sb-day-num');
+      if(numEl){ numEl.style.background = pct===100 ? 'var(--green)' : ''; numEl.style.color = pct===100 ? '#000' : ''; }
+    }
+    // Update calendar
+    const calDay = document.querySelector(`.cal-day[href="#day-${d.day}"]`);
+    if(calDay) calDay.classList.toggle('done', pct===100);
+  });
+  const {done,total} = totalProgress();
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('sb-fill').style.width = pct+'%';
+  document.getElementById('sb-pct').textContent = pct+'%';
+  document.getElementById('top-done').textContent = done;
+  document.getElementById('top-total').textContent = total;
+  document.getElementById('top-pct').textContent = pct+'%';
+}
+
+function confirmReset(){
+  if(confirm('Reset all 30-day progress? This cannot be undone.')) {
+    checked = {}; saveState(checked);
+    document.querySelectorAll('.sub-item.done').forEach(el=>el.classList.remove('done'));
+    updateUI(); showToast('Progress reset.');
+  }
+}
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ t.style.display='none'; }, 3200);
+}
+
+function openSidebar(){ document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
+function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+
+// ─── ACTIVE SIDEBAR HIGHLIGHT ────────────────────────────────────────────────
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){
+    document.querySelectorAll('.sb-day-item').forEach(el=>el.classList.remove('active'));
+    const a = document.getElementById(`sbd-${e.target.id.replace('day-','')}`);
+    if(a) a.classList.add('active');
+  }});
+},{ rootMargin:'-10% 0px -80% 0px' });
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderSidebar();
+renderCalendar();
+renderDays();
+updateUI();
+DAYS.forEach(d=>{ const el=document.getElementById(`day-${d.day}`); if(el) observer.observe(el); });
+// Open day 1 by default
+const d1 = document.getElementById('day-1');
+if(d1) d1.classList.add('open');
+</script>
+</body>
+</html>
